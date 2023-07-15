@@ -126,3 +126,46 @@ symbols with 'single escape' characters
 (symbol)
  )
 
+================================================================================
+symbols with 'multiple escape' characters
+================================================================================
+
+|a|
+|a b|
+|1|
+|a\|b|
+|(ab)|
+|'a|
+|'(ab)|
+|[ab]|
+|{ab}|
+|#|
+|#x1a|
+a|b|c
+a|b|c|d|
+||
+
+|a
+b|
+
+--------------------------------------------------------------------------------
+
+(source
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+
+(symbol)
+ )
+
