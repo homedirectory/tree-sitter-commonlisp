@@ -16,8 +16,7 @@ const WHITESPACE = /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028
 
 const SYNTAX_TYPES = {
 
-  constituent: choice(
-    /[0-9:<=>?!@a-zA-Z$%&^_*{+}~]/, "\x08", ".", "\x7f", "/", "-", "[", "]"),
+  constituent: /[0-9:<=>?!@a-zA-Z$%&^_*{+}~\x08.\x7f/\-\[\]]/,
 
   macro_char_term: /[;,"'`()]/,
   macro_char_noterm: "#",
