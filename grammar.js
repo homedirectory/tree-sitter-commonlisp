@@ -28,6 +28,15 @@ const SYNTAX_TYPES = {
 };
 
 
+function rule_number($) {
+  return /[0-9]+/;
+}
+
+function rule_symbol($) {
+  return token(repeat1(SYNTAX_TYPES.constituent));
+}
+
+
 module.exports = grammar({
 
   name: 'commonlisp',
@@ -42,9 +51,9 @@ module.exports = grammar({
 
     _token: $ => choice($.number, $.symbol),
 
-    number: $ => prec(PREC.number, /[0-9]+/),
+    number: $ => prec(PREC.number, rule_number($)),
 
-    symbol: $ => prec(PREC.symbol, token(repeat1(SYNTAX_TYPES.constituent))),
+    symbol: $ => prec(PREC.symbol, rule_symbol($)),
 
   }
 
