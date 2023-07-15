@@ -102,6 +102,20 @@ function integer_radix(radix) {
   else
     return seq(optional(SIGN), repeat1(digit));
 }
+
+// radix is one of { 'b', 'o', 'x', 'r', '' }, where '' stands for decimal
+function ratio_radix(radix) {
+  assert_radix(radix);
+
+  const prefix = prefix_radix(radix);
+  const digit = digit_radix(radix);
+
+  if (prefix != '')
+    return seq(prefix, optional(SIGN), repeat1(digit), SLASH, repeat1(digit));
+  else
+    return seq(optional(SIGN), repeat1(digit), SLASH, repeat1(digit));
+}
+
 const INTEGER = choice(
   seq(
     optional(SIGN),
@@ -114,11 +128,13 @@ const INTEGER = choice(
     integer_radix('r'),
     integer_radix('')));
 
-const RATIO = seq(
-  optional(SIGN),
-  repeat1(DIGIT),
-  SLASH,
-  repeat1(DIGIT));
+const RATIO = choice(
+  ratio_radix('b'),
+  ratio_radix('o'),
+  ratio_radix('x'),
+  ratio_radix('r'),
+  ratio_radix(''));
+
 const EXPONENT = seq(
   EXPONENT_MARKER,
   optional(SIGN),
