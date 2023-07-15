@@ -29,6 +29,8 @@ const SYNTAX_TYPES = {
   escape_single: "\\",
   escape_multi: "|",
 
+  whitespace: WHITESPACE
+
 };
 
 // =============================================================================
@@ -170,16 +172,47 @@ const FLOAT = choice(
 // 2.3.4 Symbols as Tokens
 // =============================================================================
 
+// We can categorize symbols into 2 groups: 
+// 1. multiple-escaped symbols - symbols wrapped inside 'multiple escape' characters,
+// that is, by the vertical-bar symbol '|'
+// 2. raw symbols - symbols that are not multiple-escaped
+
+// In case of (2) a 'single escape' character ('\') may be used before any other
+// character.
+// In case of (1) any 'single escape' and 'multiple escape' characters that are to
+// appear in the sequence must be preceded by a 'single escape' character
+
+// NOTE: if symbols (1) and (2) are concatenated, then they are read as a
+// single symbol. Example: a|b|c
+
 const ANY_CHAR = choice(
   SYNTAX_TYPES.constituent,
   SYNTAX_TYPES.macro_char_term,
   SYNTAX_TYPES.macro_char_noterm,
   SYNTAX_TYPES.escape_single,
-  SYNTAX_TYPES.escape_multi);
+  SYNTAX_TYPES.escape_multi,
+  SYNTAX_TYPES.whitespace);
 
 const SINGLE_ESCAPED_CHAR = seq(SYNTAX_TYPES.escape_single, ANY_CHAR);
 
-const SYMBOL_CHAR = choice(SYNTAX_TYPES.constituent, SINGLE_ESCAPED_CHAR);
+const RAW_SYMBOL_CHAR = choice(SYNTAX_TYPES.constituent, SINGLE_ESCAPED_CHAR);
+
+// symbol (2)
+const RAW_SYMBOL = repeat1(RAW_SYMBOL_CHAR);
+
+// symbol (1)
+const MULTI_ESCAPED_SYMBOL = seq(
+  SYNTAX_TYPES.escape_multi,
+  // here we can't use ANY_CHAR or RAW_SYMBOL_CHAR because multi and single
+  // escape chars must be escaped; other chars need not be escaped
+  repeat(choice(
+    choice(
+      SYNTAX_TYPES.constituent, SYNTAX_TYPES.macro_char_term,
+      SYNTAX_TYPES.macro_char_noterm, SYNTAX_TYPES.whitespace),
+    seq(SYNTAX_TYPES.escape_single, SYNTAX_TYPES.escape_single),
+    seq(SYNTAX_TYPES.escape_single, SYNTAX_TYPES.escape_multi),
+  )),
+  SYNTAX_TYPES.escape_multi);
 
 
 module.exports = grammar({
@@ -200,7 +233,9 @@ module.exports = grammar({
       PREC.number,
       token(choice(INTEGER, RATIO, FLOAT))),
 
-    symbol: $ => prec(PREC.symbol, token(repeat1(SYMBOL_CHAR))),
+    symbol: $ => prec(
+      PREC.symbol, 
+      token(repeat1(choice(RAW_SYMBOL, MULTI_ESCAPED_SYMBOL)))),
 
   },
 
