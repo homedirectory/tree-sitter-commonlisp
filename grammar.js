@@ -135,10 +135,17 @@ const RATIO = choice(
   ratio_radix('r'),
   ratio_radix(''));
 
+// Although the grammar for exponents defined in the HyperSpec includes {digit}+,
+// which denotes a digit in any radix, radixes other than decimal cannot be used
+// to write numbers with exponents (floats). For example, the following are illegal:
+// #x1.5ea ; error! mimics 1.5e10
+// #x1ea ; valid, but is equal to 1ea in hex, not 1e10
+
 const EXPONENT = seq(
   EXPONENT_MARKER,
   optional(SIGN),
-  repeat1(DIGIT));
+  repeat1(DECIMAL_DIGIT) // *** not DIGIT
+);
 
 const FLOAT = choice(
   seq(
