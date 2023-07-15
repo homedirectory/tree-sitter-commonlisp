@@ -94,7 +94,7 @@ const FLOAT = choice(
 
 module.exports = grammar({
 
-  name: 'commonlisp',
+  name: "commonlisp",
 
   extras: $ => [],
 
@@ -110,9 +110,11 @@ module.exports = grammar({
       PREC.number,
       token(choice(INTEGER, RATIO, FLOAT))),
 
-    symbol: $ => prec(PREC.symbol, rule_symbol($)),
+    // 2.3.4 Symbols as Tokens
 
-  }
+    symbol: $ => prec(PREC.symbol, token(repeat1(SYNTAX_TYPES.constituent))),
+
+  },
 
 });
 
