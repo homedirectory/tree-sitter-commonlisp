@@ -19,6 +19,12 @@ a part of its name.
 
 * `token` - a `number` or a `symbol`.
 
+## Numbers
+This grammar does not currently support potential numbers.
+They are treated as symbols.
+
+See **2.3.1.1 Potential Numbers as Tokens**.
+
 
 ## Symbols
 A token is a `symbol` if it is not:

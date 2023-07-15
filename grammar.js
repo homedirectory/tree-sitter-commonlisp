@@ -185,6 +185,10 @@ const FLOAT = choice(
 // NOTE: if symbols (1) and (2) are concatenated, then they are read as a
 // single symbol. Example: a|b|c
 
+// TODO:
+// * symbols can't consist entirely of dots (see 2.3.3)
+// * symbols can't contain package markers (unless escaped)
+
 const ANY_CHAR = choice(
   SYNTAX_TYPES.constituent,
   SYNTAX_TYPES.macro_char_term,
@@ -237,7 +241,25 @@ module.exports = grammar({
       PREC.symbol, 
       token(repeat1(choice(RAW_SYMBOL, MULTI_ESCAPED_SYMBOL)))),
 
-  },
+    // TODO 2.3.3 The Consing Dot
+
+    // TODO package (see 2.3.5)
+
+    // TODO list (see 2.4.1)
+
+    // TODO quote (see 2.4.3)
+
+    // TODO backquote (see 2.4.6)
+
+    // TODO comma (see 2.4.7)
+
+    // TODO comment (see 2.4.4)
+
+    // TODO string (see 2.4.5)
+
+    // TODO sharpsigns (see 2.4.8)
+
+  }, 
 
 });
 
