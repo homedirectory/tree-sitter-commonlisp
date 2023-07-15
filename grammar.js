@@ -32,8 +32,20 @@ module.exports = grammar({
 
     name: 'commonlisp',
 
+    extras: $ => [],
+
     rules: {
-        source: $ => 'hello',
+
+        source: $ => repeat(choice($._skip, $._token)),
+
+        _skip: $ => WHITESPACE,
+
+        _token: $ => choice($.number, $.symbol),
+
+        number: $ => prec(PREC.number, /[0-9]+/),
+
+        symbol: $ => prec(PREC.symbol, token(repeat1(SYNTAX_TYPES.constituent))),
+
     }
 
 });
