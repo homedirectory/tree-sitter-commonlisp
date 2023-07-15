@@ -52,24 +52,73 @@ const EXPONENT_MARKER = /[DdEeFfLlSs]/;
 // a digit in radix 10
 const DECIMAL_DIGIT = /[0-9]/;
 
-// a digit in the current input radix
 const DIGIT = /[0-9a-zA-Z]/; // ?
 
+// a digit in the current input radix
+// #b  #B  binary   radix 2
+// #o  #O  octal    radix 8
+// #x  #X  hex      radix 16
+// #nr #nR radix-n  radix 2..36 
+//         decimal  radix 10
+
+function assert_radix(radix) {
+  if (!['b', 'o', 'x', 'r', ''].includes(radix))
+    throw new Error("Illegal radix: " + radix);
+}
+
+function prefix_radix(radix) {
+  assert_radix(radix);
+
+  return {
+    'b': /#[bB]/,
+    'o': /#[oO]/,
+    'x': /#[xX]/,
+    'r': /#\d+[rR]/, /* ideally n is 2..36 */
+    '' : '',
+  }[radix];
+}
+
+function digit_radix(radix) {
+  assert_radix(radix);
+
+  return {
+    'b': /[01]/,
+    'o': /[0-7]/,
+    'x': /[0-9a-fA-F]/,
+    'r': /[0-9a-zA-Z]/,
+    '' : /[0-9]/,
+  }[radix];
+}
+
+// radix is one of { 'b', 'o', 'x', 'r', '' }, where '' stands for decimal
+function integer_radix(radix) {
+  assert_radix(radix);
+
+  const prefix = prefix_radix(radix);
+  const digit = digit_radix(radix);
+
+  if (prefix != '')
+    return seq(prefix, optional(SIGN), repeat1(digit));
+  else
+    return seq(optional(SIGN), repeat1(digit));
+}
 const INTEGER = choice(
   seq(
     optional(SIGN),
     repeat1(DECIMAL_DIGIT),
     DECIMAL_POINT),
-  seq(
-    optional(SIGN),
-    repeat1(DIGIT)));
+  choice(
+    integer_radix('b'),
+    integer_radix('o'),
+    integer_radix('x'),
+    integer_radix('r'),
+    integer_radix('')));
 
 const RATIO = seq(
   optional(SIGN),
   repeat1(DIGIT),
   SLASH,
   repeat1(DIGIT));
-
 const EXPONENT = seq(
   EXPONENT_MARKER,
   optional(SIGN),
