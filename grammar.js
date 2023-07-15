@@ -14,7 +14,10 @@ const WHITESPACE = /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028
 
 const DOT = ".";
 
+
+// =============================================================================
 // 2.1.4 Character Syntax Types
+// =============================================================================
 
 const SYNTAX_TYPES = {
 
@@ -163,6 +166,21 @@ const FLOAT = choice(
         repeat(DECIMAL_DIGIT))),
     EXPONENT));
 
+// =============================================================================
+// 2.3.4 Symbols as Tokens
+// =============================================================================
+
+const ANY_CHAR = choice(
+  SYNTAX_TYPES.constituent,
+  SYNTAX_TYPES.macro_char_term,
+  SYNTAX_TYPES.macro_char_noterm,
+  SYNTAX_TYPES.escape_single,
+  SYNTAX_TYPES.escape_multi);
+
+const SINGLE_ESCAPED_CHAR = seq(SYNTAX_TYPES.escape_single, ANY_CHAR);
+
+const SYMBOL_CHAR = choice(SYNTAX_TYPES.constituent, SINGLE_ESCAPED_CHAR);
+
 
 module.exports = grammar({
 
@@ -182,9 +200,7 @@ module.exports = grammar({
       PREC.number,
       token(choice(INTEGER, RATIO, FLOAT))),
 
-    // 2.3.4 Symbols as Tokens
-
-    symbol: $ => prec(PREC.symbol, token(repeat1(SYNTAX_TYPES.constituent))),
+    symbol: $ => prec(PREC.symbol, token(repeat1(SYMBOL_CHAR))),
 
   },
 
