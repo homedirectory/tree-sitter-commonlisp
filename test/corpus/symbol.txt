@@ -1,5 +1,5 @@
 ================================================================================
-symbols 1
+symbols easy
 ================================================================================
 
 a
@@ -15,6 +15,12 @@ a+b
 *a*
 a!
 a?
+FROBBOZ
+frobboz
+fRObBoz
+pascal_style
+file.rel.43
+a.b
 
 --------------------------------------------------------------------------------
 
@@ -22,6 +28,12 @@ a?
  (symbol)
  (symbol)
  (symbol) (symbol)
+ (symbol)
+ (symbol)
+ (symbol)
+ (symbol)
+ (symbol)
+ (symbol)
  (symbol)
  (symbol)
  (symbol)
@@ -46,10 +58,16 @@ symbols that look like numbers
 ++1
 --1
 1+1
+1.5x
+1.5ex
+.5a
 
 --------------------------------------------------------------------------------
 
 (source
+(symbol)
+(symbol)
+(symbol)
 (symbol)
 (symbol)
 (symbol)
@@ -69,10 +87,12 @@ weird symbols
 ^
 &
 $&@!
++$
 
 --------------------------------------------------------------------------------
 
 (source
+(symbol)
 (symbol)
 (symbol)
 (symbol)
@@ -81,50 +101,28 @@ $&@!
  )
 
 ================================================================================
-symbols 2
+symbols with 'single escape' characters
 ================================================================================
 
-FROBBOZ
-frobboz
-fRObBoz
-unwind-protect
-+$
-1+
-+1
-pascal_style
-file.rel.43
+\frobboz
+\.
+.\..
 \(
 \+1
 +\1
-\frobboz
 3.14159265\s0
 3.14159265\S0
-3.14159265s0
-\.
-.\..
-a.b
 
 --------------------------------------------------------------------------------
 
 (source
- (symbol)
- (symbol)
- (symbol)
- (symbol)
- (symbol)
- (symbol)
- (number)
- (symbol)
- (symbol)
- (symbol)
- (symbol)
- (symbol)
- (symbol)
- (symbol)
- (symbol)
- (number)
- (symbol)
- (symbol)
- (symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
+(symbol)
  )
 
