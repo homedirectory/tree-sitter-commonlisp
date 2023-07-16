@@ -32,6 +32,12 @@ const SYNTAX_TYPES = {
 
 };
 
+// returns a rule that matches an escaped character given by the argument
+function escape_single(c) {
+  return seq(SYNTAX_TYPES.escape_single, c);
+}
+
+
 // =============================================================================
 // 2.3.1 Numbers as Tokens
 // =============================================================================
@@ -179,9 +185,7 @@ const ANY_CHAR = choice(
   SYNTAX_TYPES.escape_multi,
   SYNTAX_TYPES.whitespace);
 
-const SINGLE_ESCAPED_CHAR = seq(SYNTAX_TYPES.escape_single, ANY_CHAR);
-
-const RAW_SYMBOL_CHAR = choice(SYNTAX_TYPES.constituent, SINGLE_ESCAPED_CHAR);
+const RAW_SYMBOL_CHAR = choice(SYNTAX_TYPES.constituent, escape_single(ANY_CHAR));
 
 // symbol (2)
 const RAW_SYMBOL = repeat1(RAW_SYMBOL_CHAR);
@@ -227,7 +231,6 @@ function in_parens(rule) {
 // See 2.4.5 Double-Quote
 
 const DOUBLE_QUOTE = '"';
-const ESCAPED_DOUBLE_QUOTE = '\\"';
 const NOT_DOUBLE_QUOTE = /[^"]/;
 
 
@@ -265,7 +268,7 @@ module.exports = grammar({
 
     string: _ => token(seq(
       DOUBLE_QUOTE, 
-      repeat(choice(ESCAPED_DOUBLE_QUOTE, NOT_DOUBLE_QUOTE)),
+      repeat(choice(escape_single(DOUBLE_QUOTE), NOT_DOUBLE_QUOTE)),
       DOUBLE_QUOTE)),
 
     // TODO 2.3.3 The Consing Dot
