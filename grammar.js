@@ -234,7 +234,11 @@ module.exports = grammar({
 
     _skip: $ => WHITESPACE,
 
-    _token: $ => choice($.number, $.symbol, $.list),
+    _token: $ => choice(
+      $.number, 
+      $.symbol, 
+      $.list,
+      $.comment),
 
     number: $ => prec(
       PREC.number,
@@ -245,6 +249,8 @@ module.exports = grammar({
       token(repeat1(choice(RAW_SYMBOL, MULTI_ESCAPED_SYMBOL)))),
 
     list: $ => in_parens(repeat(choice($._skip, $._token))),
+
+    comment: _ => token(/;.*/),
 
     // TODO 2.3.3 The Consing Dot
 
