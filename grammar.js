@@ -66,59 +66,51 @@ const DIGIT = /[0-9a-zA-Z]/; // ?
 // #nr #nR radix-n  radix 2..36 
 //         decimal  radix 10
 
+// '' stands for decimal
+const RADIXES = ['b', 'o', 'x', 'r', ''];
+
 function assert_radix(radix) {
-  if (!['b', 'o', 'x', 'r', ''].includes(radix))
+  if (!RADIXES.includes(radix))
     throw new Error("Illegal radix: " + radix);
 }
 
-function prefix_radix(radix) {
+const RADIX_PREFIXES = {
+  'b': /#[bB]/,
+  'o': /#[oO]/,
+  'x': /#[xX]/,
+  'r': /#\d+[rR]/, /* ideally n is 2..36 */
+  '' : '',
+};
+
+const RADIX_DIGITS = {
+  'b': /[01]/,
+  'o': /[0-7]/,
+  'x': /[0-9a-fA-F]/,
+  'r': /[0-9a-zA-Z]/,
+  '' : /[0-9]/,
+};
+
+// transforms a given rule to use a given radix
+// * radix  - one of RADIXES
+// * fn     - a rule-producing function of 1 argument which stands for a digit in given radix
+// Example: in_radix('x', digit => seq(sign, digit));
+function in_radix(radix, fn) {
   assert_radix(radix);
 
-  return {
-    'b': /#[bB]/,
-    'o': /#[oO]/,
-    'x': /#[xX]/,
-    'r': /#\d+[rR]/, /* ideally n is 2..36 */
-    '' : '',
-  }[radix];
+  const prefix = RADIX_PREFIXES[radix];
+  const digit = RADIX_DIGITS[radix];
+
+    if (prefix != '')
+        return seq(prefix, fn(digit));
+    else
+        return fn(digit);
 }
 
-function digit_radix(radix) {
-  assert_radix(radix);
-
-  return {
-    'b': /[01]/,
-    'o': /[0-7]/,
-    'x': /[0-9a-fA-F]/,
-    'r': /[0-9a-zA-Z]/,
-    '' : /[0-9]/,
-  }[radix];
-}
-
-// radix is one of { 'b', 'o', 'x', 'r', '' }, where '' stands for decimal
-function integer_radix(radix) {
-  assert_radix(radix);
-
-  const prefix = prefix_radix(radix);
-  const digit = digit_radix(radix);
-
-  if (prefix != '')
-    return seq(prefix, optional(SIGN), repeat1(digit));
-  else
-    return seq(optional(SIGN), repeat1(digit));
-}
-
-// radix is one of { 'b', 'o', 'x', 'r', '' }, where '' stands for decimal
-function ratio_radix(radix) {
-  assert_radix(radix);
-
-  const prefix = prefix_radix(radix);
-  const digit = digit_radix(radix);
-
-  if (prefix != '')
-    return seq(prefix, optional(SIGN), repeat1(digit), SLASH, repeat1(digit));
-  else
-    return seq(optional(SIGN), repeat1(digit), SLASH, repeat1(digit));
+// transforms a given rule into a choice between all existinging radixes
+// * fn     - a rule-producing function of 1 argument which stands for a digit in given radix
+function radix_choice(fn) {
+  const choices = RADIXES.map(rdx => in_radix(rdx, fn));
+  return choice(...choices);
 }
 
 const INTEGER = choice(
@@ -126,19 +118,10 @@ const INTEGER = choice(
     optional(SIGN),
     repeat1(DECIMAL_DIGIT),
     DECIMAL_POINT),
-  choice(
-    integer_radix('b'),
-    integer_radix('o'),
-    integer_radix('x'),
-    integer_radix('r'),
-    integer_radix('')));
+  radix_choice(digit => seq(optional(SIGN), repeat1(digit))));
 
-const RATIO = choice(
-  ratio_radix('b'),
-  ratio_radix('o'),
-  ratio_radix('x'),
-  ratio_radix('r'),
-  ratio_radix(''));
+const RATIO = radix_choice(
+  digit => seq(optional(SIGN), repeat1(digit), SLASH, repeat1(digit)));
 
 // Although the grammar for exponents defined in the HyperSpec includes {digit}+,
 // which denotes a digit in any radix, radixes other than decimal cannot be used
