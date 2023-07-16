@@ -226,6 +226,14 @@ function in_parens(rule) {
 }
 
 // =============================================================================
+// Quote
+// =============================================================================
+// See 2.4.3 Single-Quote
+
+const SINGLE_QUOTE = "'";
+
+
+// =============================================================================
 // String
 // =============================================================================
 // See 2.4.5 Double-Quote
@@ -250,6 +258,7 @@ module.exports = grammar({
       $.number, 
       $.symbol, 
       $.list,
+      $.quote,
       $.comment,
       $.string),
 
@@ -263,6 +272,8 @@ module.exports = grammar({
 
     list: $ => in_parens(repeat(choice($._skip, $._token))),
 
+    quote: $ => seq(SINGLE_QUOTE, $._token),
+
     // 2.4.4 Semicolon
     comment: _ => token(/;.*/),
 
@@ -274,8 +285,6 @@ module.exports = grammar({
     // TODO 2.3.3 The Consing Dot
 
     // TODO package (see 2.3.5)
-
-    // TODO quote (see 2.4.3)
 
     // TODO backquote (see 2.4.6)
 
