@@ -250,6 +250,7 @@ module.exports = grammar({
 
     list: $ => in_parens(repeat(choice($._skip, $._token))),
 
+    // 2.4.4 Semicolon
     comment: _ => token(/;.*/),
 
     // TODO 2.3.3 The Consing Dot
