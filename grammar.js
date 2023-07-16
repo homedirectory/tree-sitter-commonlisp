@@ -221,6 +221,15 @@ function in_parens(rule) {
   //   seq("{", rule, "}"));
 }
 
+// =============================================================================
+// String
+// =============================================================================
+// See 2.4.5 Double-Quote
+
+const DOUBLE_QUOTE = '"';
+const ESCAPED_DOUBLE_QUOTE = '\\"';
+const NOT_DOUBLE_QUOTE = /[^"]/;
+
 
 module.exports = grammar({
 
@@ -238,7 +247,8 @@ module.exports = grammar({
       $.number, 
       $.symbol, 
       $.list,
-      $.comment),
+      $.comment,
+      $.string),
 
     number: $ => prec(
       PREC.number,
@@ -253,6 +263,11 @@ module.exports = grammar({
     // 2.4.4 Semicolon
     comment: _ => token(/;.*/),
 
+    string: _ => token(seq(
+      DOUBLE_QUOTE, 
+      repeat(choice(ESCAPED_DOUBLE_QUOTE, NOT_DOUBLE_QUOTE)),
+      DOUBLE_QUOTE)),
+
     // TODO 2.3.3 The Consing Dot
 
     // TODO package (see 2.3.5)
@@ -264,8 +279,6 @@ module.exports = grammar({
     // TODO comma (see 2.4.7)
 
     // TODO comment (see 2.4.4)
-
-    // TODO string (see 2.4.5)
 
     // TODO sharpsigns (see 2.4.8)
 
