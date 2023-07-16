@@ -14,7 +14,6 @@ const WHITESPACE = /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028
 
 const DOT = ".";
 
-
 // =============================================================================
 // 2.1.4 Character Syntax Types
 // =============================================================================
@@ -202,6 +201,27 @@ const MULTI_ESCAPED_SYMBOL = seq(
   SYNTAX_TYPES.escape_multi);
 
 
+// =============================================================================
+// List
+// =============================================================================
+// See 2.4.1 Left-Parenthesis
+
+// Brackets ([]) and braces ({}) are considered constituent characters,
+// so the following are valid symbols: [], [a], a{b}c.
+// From 2.1.4: 
+// > ... are initially constituents, but they are not used in any standard Common Lisp notations. 
+// > These characters are explicitly reserved to the programmer.
+// Therefore, we use only parens as list enclosing characters.
+
+function in_parens(rule) {
+  return seq("(", rule, ")");
+  // return choice(
+  //   seq("(", rule, ")"),
+  //   seq("[", rule, "]"),
+  //   seq("{", rule, "}"));
+}
+
+
 module.exports = grammar({
 
   name: "commonlisp",
@@ -214,7 +234,7 @@ module.exports = grammar({
 
     _skip: $ => WHITESPACE,
 
-    _token: $ => choice($.number, $.symbol),
+    _token: $ => choice($.number, $.symbol, $.list),
 
     number: $ => prec(
       PREC.number,
@@ -224,11 +244,11 @@ module.exports = grammar({
       PREC.symbol, 
       token(repeat1(choice(RAW_SYMBOL, MULTI_ESCAPED_SYMBOL)))),
 
+    list: $ => in_parens(repeat(choice($._skip, $._token))),
+
     // TODO 2.3.3 The Consing Dot
 
     // TODO package (see 2.3.5)
-
-    // TODO list (see 2.4.1)
 
     // TODO quote (see 2.4.3)
 
