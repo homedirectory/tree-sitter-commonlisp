@@ -241,6 +241,13 @@ const SINGLE_QUOTE = "'";
 const DOUBLE_QUOTE = '"';
 const NOT_DOUBLE_QUOTE = /[^"]/;
 
+// =============================================================================
+// Backquote
+// =============================================================================
+// See 2.4.6 Backquote
+
+const BACKQUOTE = "`";
+
 
 module.exports = grammar({
 
@@ -260,7 +267,8 @@ module.exports = grammar({
       $.list,
       $.quote,
       $.comment,
-      $.string),
+      $.string,
+      $.backquote),
 
     number: $ => prec(
       PREC.number,
@@ -282,11 +290,14 @@ module.exports = grammar({
       repeat(choice(escape_single(DOUBLE_QUOTE), NOT_DOUBLE_QUOTE)),
       DOUBLE_QUOTE)),
 
+    // TODO:
+    // * `,form  - form must not begin with '@' or '.'
+    // * `,@form has undefined consequences
+    backquote: $ => seq(BACKQUOTE, $._token),
+
     // TODO 2.3.3 The Consing Dot
 
     // TODO package (see 2.3.5)
-
-    // TODO backquote (see 2.4.6)
 
     // TODO comma (see 2.4.7)
 
