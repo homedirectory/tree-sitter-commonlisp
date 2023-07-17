@@ -276,7 +276,8 @@ module.exports = grammar({
       $.string,
       $.backquote,
       $.unquote,
-      $.unquote_splicing),
+      $.unquote_splicing,
+      $.dot),
 
     number: $ => prec(
       PREC.number,
@@ -304,7 +305,7 @@ module.exports = grammar({
 
     unquote_splicing: $ => seq(UNQUOTE_SPLICING, $._token),
 
-    // TODO 2.3.3 The Consing Dot
+    dot: $ => DOT,
 
     // TODO package (see 2.3.5)
 
