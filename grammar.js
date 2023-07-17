@@ -272,6 +272,9 @@ const ASTERISK = "*";
 // 2.4.8.5 Sharpsign Colon (uninterned symbol)
 const SHARPSIGN_COLON = "#:";
 
+// 2.4.8.6 Sharpsign Dot (read-eval / sharp-dot)
+const SHARPSIGN_DOT = "#.";
+
 
 module.exports = grammar({
 
@@ -300,7 +303,8 @@ module.exports = grammar({
       $.function,
       $.vector,
       $.bitvector,
-      $.uninterned_symbol),
+      $.uninterned_symbol,
+      $.sharp_dot),
 
     number: $ => prec(
       PREC.number,
@@ -351,6 +355,9 @@ module.exports = grammar({
 
     // 2.4.8.5 Sharpsign Colon
     uninterned_symbol: $ => token(seq(SHARPSIGN_COLON, SYMBOL)),
+
+    // 2.4.8.6 Sharpsign Dot
+    sharp_dot: $ => seq(SHARPSIGN_DOT, $._token),
 
     // TODO package (see 2.3.5)
 
