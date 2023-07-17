@@ -349,6 +349,7 @@ module.exports = grammar({
         optional(UNSIGNED_DECIMAL_INTEGER), 
         ASTERISK, repeat(SYNTAX_TYPES.constituent))),
 
+    // 2.4.8.5 Sharpsign Colon
     uninterned_symbol: $ => token(seq(SHARPSIGN_COLON, SYMBOL)),
 
     // TODO package (see 2.3.5)
