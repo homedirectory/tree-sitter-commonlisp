@@ -242,11 +242,17 @@ const DOUBLE_QUOTE = '"';
 const NOT_DOUBLE_QUOTE = /[^"]/;
 
 // =============================================================================
-// Backquote
+// Backquote, unquote, unquote-splicing
 // =============================================================================
-// See 2.4.6 Backquote
+// See 2.4.6 Backquote, 2.4.7 Comma
 
 const BACKQUOTE = "`";
+const COMMA = ",";
+
+// Anywhere ',@' may be used, ',.' may be used instead to indicate
+// that the list structure produced by the form can be operated on destructively
+// (i.e., using nconc rather than append)
+const UNQUOTE_SPLICING = /,[@.]/;
 
 
 module.exports = grammar({
@@ -268,7 +274,9 @@ module.exports = grammar({
       $.quote,
       $.comment,
       $.string,
-      $.backquote),
+      $.backquote,
+      $.unquote,
+      $.unquote_splicing),
 
     number: $ => prec(
       PREC.number,
@@ -290,16 +298,15 @@ module.exports = grammar({
       repeat(choice(escape_single(DOUBLE_QUOTE), NOT_DOUBLE_QUOTE)),
       DOUBLE_QUOTE)),
 
-    // TODO:
-    // * `,form  - form must not begin with '@' or '.'
-    // * `,@form has undefined consequences
     backquote: $ => seq(BACKQUOTE, $._token),
+
+    unquote: $ => seq(COMMA, $._token),
+
+    unquote_splicing: $ => seq(UNQUOTE_SPLICING, $._token),
 
     // TODO 2.3.3 The Consing Dot
 
     // TODO package (see 2.3.5)
-
-    // TODO comma (see 2.4.7)
 
     // TODO comment (see 2.4.4)
 
@@ -308,4 +315,3 @@ module.exports = grammar({
   }, 
 
 });
-
