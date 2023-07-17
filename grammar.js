@@ -205,6 +205,7 @@ const MULTI_ESCAPED_SYMBOL = seq(
   )),
   SYNTAX_TYPES.escape_multi);
 
+const SYMBOL = repeat1(choice(RAW_SYMBOL, MULTI_ESCAPED_SYMBOL));
 
 // =============================================================================
 // List
@@ -268,6 +269,9 @@ const UNSIGNED_DECIMAL_INTEGER = /[0-9]+/;
 // 2.4.8.4 Sharpsign Asterisk (bit vector)
 const ASTERISK = "*";
 
+// 2.4.8.5 Sharpsign Colon (uninterned symbol)
+const SHARPSIGN_COLON = "#:";
+
 
 module.exports = grammar({
 
@@ -295,15 +299,14 @@ module.exports = grammar({
       $.character,
       $.function,
       $.vector,
-      $.bitvector),
+      $.bitvector,
+      $.uninterned_symbol),
 
     number: $ => prec(
       PREC.number,
       token(choice(INTEGER, RATIO, FLOAT))),
 
-    symbol: $ => prec(
-      PREC.symbol, 
-      token(repeat1(choice(RAW_SYMBOL, MULTI_ESCAPED_SYMBOL)))),
+    symbol: $ => prec(PREC.symbol, token(SYMBOL)),
 
     list: $ => in_parens(repeat(choice($._skip, $._token))),
 
@@ -345,6 +348,8 @@ module.exports = grammar({
       seq(SHARPSIGN, 
         optional(UNSIGNED_DECIMAL_INTEGER), 
         ASTERISK, repeat(SYNTAX_TYPES.constituent))),
+
+    uninterned_symbol: $ => token(seq(SHARPSIGN_COLON, SYMBOL)),
 
     // TODO package (see 2.3.5)
 
