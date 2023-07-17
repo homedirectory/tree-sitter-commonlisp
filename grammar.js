@@ -309,8 +309,6 @@ module.exports = grammar({
 
     // TODO package (see 2.3.5)
 
-    // TODO comment (see 2.4.4)
-
     // TODO sharpsigns (see 2.4.8)
 
   }, 
