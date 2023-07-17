@@ -262,6 +262,9 @@ const UNQUOTE_SPLICING = /,[@.]/;
 
 const SHARPSIGN = "#";
 
+// 2.4.8.3 Sharpsign Left-Parenthesis (Vector)
+const UNSIGNED_DECIMAL_INTEGER = /[0-9]+/;
+
 
 module.exports = grammar({
 
@@ -287,7 +290,8 @@ module.exports = grammar({
       $.unquote_splicing,
       $.dot,
       $.character,
-      $.function),
+      $.function,
+      $.vector),
 
     number: $ => prec(
       PREC.number,
@@ -322,6 +326,12 @@ module.exports = grammar({
 
     // 2.4.8.2 Sharpsign Single-Quote
     function: $ => seq(SHARPSIGN, SINGLE_QUOTE, $._token),
+
+    // 2.4.8.3 Sharpsign Left-Parenthesis
+    vector: $ => seq(
+      SHARPSIGN, 
+      optional(UNSIGNED_DECIMAL_INTEGER), 
+      in_parens(repeat(choice($._skip, $._token)))),
 
     // TODO package (see 2.3.5)
 
