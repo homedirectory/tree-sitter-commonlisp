@@ -13,6 +13,7 @@ const PREC = {
 const WHITESPACE = /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}]+/u;
 
 const DOT = ".";
+const BACKSLASH = "\\";
 
 // =============================================================================
 // 2.1.4 Character Syntax Types
@@ -254,6 +255,13 @@ const COMMA = ",";
 // (i.e., using nconc rather than append)
 const UNQUOTE_SPLICING = /,[@.]/;
 
+// ==============================================
+// Sharpsign
+// =============================================================================
+// See 2.4.8 Sharpsign
+
+const SHARPSIGN = "#";
+
 
 module.exports = grammar({
 
@@ -277,7 +285,8 @@ module.exports = grammar({
       $.backquote,
       $.unquote,
       $.unquote_splicing,
-      $.dot),
+      $.dot,
+      $.character),
 
     number: $ => prec(
       PREC.number,
@@ -306,6 +315,8 @@ module.exports = grammar({
     unquote_splicing: $ => seq(UNQUOTE_SPLICING, $._token),
 
     dot: $ => DOT,
+    
+    character: $ => seq(SHARPSIGN, BACKSLASH, /.+/),
 
     // TODO package (see 2.3.5)
 
