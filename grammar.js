@@ -286,7 +286,8 @@ module.exports = grammar({
       $.unquote,
       $.unquote_splicing,
       $.dot,
-      $.character),
+      $.character,
+      $.function),
 
     number: $ => prec(
       PREC.number,
@@ -316,7 +317,11 @@ module.exports = grammar({
 
     dot: $ => DOT,
     
+    // 2.4.8.1 Sharpsign Backslash
     character: $ => seq(SHARPSIGN, BACKSLASH, /.+/),
+
+    // 2.4.8.2 Sharpsign Single-Quote
+    function: $ => seq(SHARPSIGN, SINGLE_QUOTE, $._token),
 
     // TODO package (see 2.3.5)
 
