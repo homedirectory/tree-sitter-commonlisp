@@ -265,6 +265,9 @@ const SHARPSIGN = "#";
 // 2.4.8.3 Sharpsign Left-Parenthesis (Vector)
 const UNSIGNED_DECIMAL_INTEGER = /[0-9]+/;
 
+// 2.4.8.4 Sharpsign Asterisk (bit vector)
+const ASTERISK = "*";
+
 
 module.exports = grammar({
 
@@ -291,7 +294,8 @@ module.exports = grammar({
       $.dot,
       $.character,
       $.function,
-      $.vector),
+      $.vector,
+      $.bitvector),
 
     number: $ => prec(
       PREC.number,
@@ -332,6 +336,15 @@ module.exports = grammar({
       SHARPSIGN, 
       optional(UNSIGNED_DECIMAL_INTEGER), 
       in_parens(repeat(choice($._skip, $._token)))),
+
+    // 2.4.8.4 Sharpsign Asterisk
+    // can't specify only [01] after asterisk because #*0123 would parse as
+    // (bitvector) (number), which is bound to confuse people; for another
+    // example #*01a would parse as (bitvector) (symbol)
+    bitvector: $ => token(
+      seq(SHARPSIGN, 
+        optional(UNSIGNED_DECIMAL_INTEGER), 
+        ASTERISK, repeat(SYNTAX_TYPES.constituent))),
 
     // TODO package (see 2.3.5)
 
