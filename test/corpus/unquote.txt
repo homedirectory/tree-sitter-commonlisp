@@ -1,0 +1,213 @@
+================================================================================
+backquote simple
+================================================================================
+
+`1
+`abc
+`1 2
+`()
+`(a b)
+`'1
+
+--------------------------------------------------------------------------------
+
+(source
+ (backquote (number))
+ (backquote (symbol))
+ (backquote (number)) (number)
+ (backquote (list))
+ (backquote (list (symbol) (symbol)))
+ (backquote (quote (number)))
+)
+
+================================================================================
+weird backquotes
+================================================================================
+
+`"abc"
+`a\ b
+`\ a
+
+--------------------------------------------------------------------------------
+
+(source
+ (backquote (string))
+ (backquote (symbol))
+ (backquote (symbol))
+)
+
+================================================================================
+unquote simple
+================================================================================
+
+`,1
+`,a
+`,(a b)
+`(,a)
+`(a ,b)
+
+--------------------------------------------------------------------------------
+
+(source
+ (backquote (unquote (number)))
+ (backquote (unquote (symbol)))
+ (backquote (unquote (list (symbol) (symbol))))
+ (backquote (list (unquote (symbol))))
+ (backquote (list (symbol) (unquote (symbol))))
+)
+
+================================================================================
+unquote nested
+================================================================================
+
+`,,a
+`,,(a b)
+`(,,a)
+
+--------------------------------------------------------------------------------
+
+(source
+ (backquote (unquote (unquote (symbol))))
+ (backquote (unquote (unquote (list (symbol) (symbol)))))
+ (backquote (list (unquote (unquote (symbol)))))
+)
+
+================================================================================
+unquote outside backquote
+================================================================================
+
+,1
+,a
+,(a b)
+(,a)
+(a ,b)
+
+--------------------------------------------------------------------------------
+
+(source
+ (unquote (number))
+ (unquote (symbol))
+ (unquote (list (symbol) (symbol)))
+ (list (unquote (symbol)))
+ (list (symbol) (unquote (symbol)))
+)
+
+================================================================================
+unquote_splicing simple
+================================================================================
+
+`,@1
+`,@a
+`,@(a b)
+`(,@a)
+`(a ,@b)
+
+`,.1
+`,.a
+`,.(a b)
+`(,.a)
+`(a ,.b)
+
+--------------------------------------------------------------------------------
+
+(source
+ (backquote (unquote_splicing (number)))
+ (backquote (unquote_splicing (symbol)))
+ (backquote (unquote_splicing (list (symbol) (symbol))))
+ (backquote (list (unquote_splicing (symbol))))
+ (backquote (list (symbol) (unquote_splicing (symbol))))
+
+ (backquote (unquote_splicing (number)))
+ (backquote (unquote_splicing (symbol)))
+ (backquote (unquote_splicing (list (symbol) (symbol))))
+ (backquote (list (unquote_splicing (symbol))))
+ (backquote (list (symbol) (unquote_splicing (symbol))))
+)
+
+================================================================================
+unquote_splicing nested
+================================================================================
+
+`,@,@a
+`,@,@(a b)
+`(,@,@a)
+
+`,.,.a
+`,.,.(a b)
+`(,.,.a)
+
+--------------------------------------------------------------------------------
+
+(source
+ (backquote (unquote_splicing (unquote_splicing (symbol))))
+ (backquote (unquote_splicing (unquote_splicing (list (symbol) (symbol)))))
+ (backquote (list (unquote_splicing (unquote_splicing (symbol)))))
+
+ (backquote (unquote_splicing (unquote_splicing (symbol))))
+ (backquote (unquote_splicing (unquote_splicing (list (symbol) (symbol)))))
+ (backquote (list (unquote_splicing (unquote_splicing (symbol)))))
+)
+
+================================================================================
+unquote_splicing outside backquote
+================================================================================
+
+,@1
+,@a
+,@(a b)
+(,@a)
+(a ,@b)
+
+,.1
+,.a
+,.(a b)
+(,.a)
+(a ,.b)
+
+--------------------------------------------------------------------------------
+
+(source
+ (unquote_splicing (number))
+ (unquote_splicing (symbol))
+ (unquote_splicing (list (symbol) (symbol)))
+ (list (unquote_splicing (symbol)))
+ (list (symbol) (unquote_splicing (symbol)))
+
+ (unquote_splicing (number))
+ (unquote_splicing (symbol))
+ (unquote_splicing (list (symbol) (symbol)))
+ (list (unquote_splicing (symbol)))
+ (list (symbol) (unquote_splicing (symbol)))
+)
+
+================================================================================
+unquote mixed with unquote_splicing
+================================================================================
+
+`(a ,b ,@c)
+`,@,a
+`,.,a
+`,,@a
+`,,.a
+
+(a ,b ,@c)
+,@,a
+,.,a
+,,@a
+,,.a
+
+--------------------------------------------------------------------------------
+
+(source
+ (backquote (list (symbol) (unquote (symbol)) (unquote_splicing (symbol))))
+ (backquote (unquote_splicing (unquote (symbol))))
+ (backquote (unquote_splicing (unquote (symbol))))
+ (backquote (unquote (unquote_splicing (symbol))))
+ (backquote (unquote (unquote_splicing (symbol))))
+
+ (list (symbol) (unquote (symbol)) (unquote_splicing (symbol)))
+ (unquote_splicing (unquote (symbol)))
+ (unquote_splicing (unquote (symbol)))
+ (unquote (unquote_splicing (symbol)))
+ (unquote (unquote_splicing (symbol)))
+)
