@@ -280,13 +280,11 @@ module.exports = grammar({
 
   name: "commonlisp",
 
-  extras: $ => [],
+  extras: _ => [WHITESPACE],
 
   rules: {
 
-    source: $ => repeat(choice($._skip, $._token)),
-
-    _skip: $ => WHITESPACE,
+    source: $ => repeat($._token),
 
     _token: $ => choice(
       $.number, 
@@ -316,7 +314,7 @@ module.exports = grammar({
 
     list: $ => $._list,
 
-    _list: $ => in_parens(repeat(choice($._skip, $._token))),
+    _list: $ => in_parens(repeat($._token)),
 
     quote: $ => seq(SINGLE_QUOTE, $._token),
 
@@ -364,12 +362,12 @@ module.exports = grammar({
     sharp_dot: $ => seq(SHARPSIGN_DOT, $._token),
 
     // 2.4.8.11 Sharpsign C (complex)
-    complex: $ => seq("#C", in_parens(seq($.number, repeat($._skip), $.number))),
+    complex: $ => seq("#C", in_parens(seq($.number, $.number))),
 
     // 2.4.8.12 Sharpsign A (array)
     array: $ => choice(
       seq(/#[1-9][0-9]*[aA]/, $._list),
-      seq(/#0[aA]/, repeat($._skip), $._token)),
+      seq(/#0[aA]/, $._token)),
     // TODO sharpsigns (see 2.4.8)
     // TODO package (see 2.3.5)
 
