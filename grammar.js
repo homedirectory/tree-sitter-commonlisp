@@ -243,6 +243,11 @@ const SINGLE_QUOTE = "'";
 const DOUBLE_QUOTE = '"';
 const NOT_DOUBLE_QUOTE = /[^"]/;
 
+const STRING = token(seq(
+  DOUBLE_QUOTE, 
+  repeat(choice(escape_single(DOUBLE_QUOTE), NOT_DOUBLE_QUOTE)),
+  DOUBLE_QUOTE));
+
 // =============================================================================
 // Backquote, unquote, unquote-splicing
 // =============================================================================
@@ -305,7 +310,8 @@ module.exports = grammar({
       $.sharp_dot,
       $.complex,
       $.array,
-      $.struct),
+      $.struct,
+      $.pathname),
 
     number: $ => prec(
       PREC.number,
@@ -322,10 +328,8 @@ module.exports = grammar({
     // 2.4.4 Semicolon
     comment: _ => token(/;.*/),
 
-    string: _ => token(seq(
-      DOUBLE_QUOTE, 
-      repeat(choice(escape_single(DOUBLE_QUOTE), NOT_DOUBLE_QUOTE)),
-      DOUBLE_QUOTE)),
+    // TODO format specifiers
+    string: _ => STRING,
 
     backquote: $ => seq(BACKQUOTE, $._token),
 
@@ -376,6 +380,9 @@ module.exports = grammar({
       in_parens(
         field("name", $.symbol),
         repeat(seq(field("slot", $.symbol), field("value", $._token))))),
+
+    // 2.4.8.14 Sharpsign P
+    pathname: $ => seq(/#[pP]/, STRING),
     // TODO sharpsigns (see 2.4.8)
     // TODO package (see 2.3.5)
 
