@@ -305,7 +305,8 @@ module.exports = grammar({
       $.bitvector,
       $.uninterned_symbol,
       $.sharp_dot,
-      $.complex),
+      $.complex,
+      $.array),
 
     number: $ => prec(
       PREC.number,
@@ -313,7 +314,9 @@ module.exports = grammar({
 
     symbol: $ => prec(PREC.symbol, token(SYMBOL)),
 
-    list: $ => in_parens(repeat(choice($._skip, $._token))),
+    list: $ => $._list,
+
+    _list: $ => in_parens(repeat(choice($._skip, $._token))),
 
     quote: $ => seq(SINGLE_QUOTE, $._token),
 
@@ -343,7 +346,7 @@ module.exports = grammar({
     vector: $ => seq(
       SHARPSIGN, 
       optional(UNSIGNED_DECIMAL_INTEGER), 
-      in_parens(repeat(choice($._skip, $._token)))),
+      $._list),
 
     // 2.4.8.4 Sharpsign Asterisk
     // can't specify only [01] after asterisk because #*0123 would parse as
@@ -363,6 +366,10 @@ module.exports = grammar({
     // 2.4.8.11 Sharpsign C (complex)
     complex: $ => seq("#C", in_parens(seq($.number, repeat($._skip), $.number))),
 
+    // 2.4.8.12 Sharpsign A (array)
+    array: $ => choice(
+      seq(/#[1-9][0-9]*[aA]/, $._list),
+      seq(/#0[aA]/, repeat($._skip), $._token)),
     // TODO sharpsigns (see 2.4.8)
     // TODO package (see 2.3.5)
 
