@@ -219,8 +219,8 @@ const SYMBOL = repeat1(choice(RAW_SYMBOL, MULTI_ESCAPED_SYMBOL));
 // > These characters are explicitly reserved to the programmer.
 // Therefore, we use only parens as list enclosing characters.
 
-function in_parens(rule) {
-  return seq("(", rule, ")");
+function in_parens() {
+  return seq("(", ...arguments, ")");
   // return choice(
   //   seq("(", rule, ")"),
   //   seq("[", rule, "]"),
@@ -362,7 +362,7 @@ module.exports = grammar({
     sharp_dot: $ => seq(SHARPSIGN_DOT, $._token),
 
     // 2.4.8.11 Sharpsign C (complex)
-    complex: $ => seq("#C", in_parens(seq($.number, $.number))),
+    complex: $ => seq("#C", in_parens($.number, $.number)),
 
     // 2.4.8.12 Sharpsign A (array)
     array: $ => choice(
