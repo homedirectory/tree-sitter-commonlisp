@@ -304,7 +304,8 @@ module.exports = grammar({
       $.uninterned_symbol,
       $.sharp_dot,
       $.complex,
-      $.array),
+      $.array,
+      $.struct),
 
     number: $ => prec(
       PREC.number,
@@ -368,6 +369,13 @@ module.exports = grammar({
     array: $ => choice(
       seq(/#[1-9][0-9]*[aA]/, $._list),
       seq(/#0[aA]/, $._token)),
+
+    // 2.4.8.13 Sharpsign S (structure)
+    struct: $ => seq(
+      /#[sS]/,
+      in_parens(
+        field("name", $.symbol),
+        repeat(seq(field("slot", $.symbol), field("value", $._token))))),
     // TODO sharpsigns (see 2.4.8)
     // TODO package (see 2.3.5)
 
