@@ -158,5 +158,22 @@ array
  (ERROR) (symbol)
 )
 
+===============================================================================
+struct
+===============================================================================
+
+#s(man name 'joe age 30)
+#s(man)
+#S(man)
+#s(man name)
+--------------------------------------------------------------------------------
+
+(source
+ (struct (symbol) (symbol) (quote (symbol)) (symbol) (number))
+ (struct (symbol))
+ (struct (symbol))
+ (struct (symbol) (ERROR (symbol)))
+)
+
 
 
