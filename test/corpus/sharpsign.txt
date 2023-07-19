@@ -135,6 +135,28 @@ complex
  (complex (number) (number))
 )
 
+===============================================================================
+array
+================================================================================
+
+#2A((0 1) (foo (bar)))
+#1A((0 1) (foo (bar)))
+#0A((0 1) (foo (bar)))
+#0A foo
+#0a (foo)
+#44a(0)
+#1a foo
+--------------------------------------------------------------------------------
+
+(source
+ (array (list (number) (number)) (list (symbol) (list (symbol))))
+ (array (list (number) (number)) (list (symbol) (list (symbol))))
+ (array (list (list (number) (number)) (list (symbol) (list (symbol)))))
+ (array (symbol))
+ (array (list (symbol)))
+ (array (number))
+ (ERROR) (symbol)
+)
 
 
 
