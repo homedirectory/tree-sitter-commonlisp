@@ -304,7 +304,8 @@ module.exports = grammar({
       $.vector,
       $.bitvector,
       $.uninterned_symbol,
-      $.sharp_dot),
+      $.sharp_dot,
+      $.complex),
 
     number: $ => prec(
       PREC.number,
@@ -359,9 +360,11 @@ module.exports = grammar({
     // 2.4.8.6 Sharpsign Dot
     sharp_dot: $ => seq(SHARPSIGN_DOT, $._token),
 
-    // TODO package (see 2.3.5)
+    // 2.4.8.11 Sharpsign C (complex)
+    complex: $ => seq("#C", in_parens(seq($.number, repeat($._skip), $.number))),
 
     // TODO sharpsigns (see 2.4.8)
+    // TODO package (see 2.3.5)
 
   }, 
 
