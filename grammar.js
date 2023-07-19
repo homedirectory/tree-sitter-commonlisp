@@ -285,7 +285,7 @@ module.exports = grammar({
 
   name: "commonlisp",
 
-  extras: _ => [WHITESPACE],
+  extras: $ => [WHITESPACE, $.block_comment],
 
   rules: {
 
@@ -384,6 +384,9 @@ module.exports = grammar({
     // 2.4.8.14 Sharpsign P
     pathname: $ => seq(/#[pP]/, STRING),
     // TODO sharpsigns (see 2.4.8)
+    // 2.4.8.19 Sharpsign Vertical-Bar (block comment)
+    block_comment: $ => seq("#|", repeat(choice($.block_comment, /[^|]/, /\|[^#]/)), "|#"),
+
     // TODO package (see 2.3.5)
 
   }, 
