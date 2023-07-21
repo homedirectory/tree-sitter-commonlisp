@@ -39,6 +39,13 @@
   "declare" @keyword)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; lambda
+
+(lambda
+  "lambda" @keyword
+  (lambda_list (symbol) @parameter))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; defvar, defparameter
 
 (defvar
