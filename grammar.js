@@ -297,6 +297,17 @@ const SHARPSIGN_COLON = "#:";
 const SHARPSIGN_DOT = "#.";
 
 
+// Macro DEFPARAMETER, DEFVAR
+function make_defvar($, macro_name) {
+  return in_parens(
+    macro_name,
+    field("name", $.symbol), 
+    optional(seq(
+      field("value", $._element),
+      optional($.documentation))))
+}
+
+
 module.exports = grammar({
 
   name: "commonlisp",
@@ -443,7 +454,10 @@ module.exports = grammar({
     // Forms are either special forms, such as let, or macros, such as defun.
     // Forms consist of tokens and other forms.
 
-    _form: $ => choice($.defun),
+    _form: $ => choice(
+      $.defun,
+      $.defvar,
+      $.defparameter),
 
     defun: $ => in_parens(
       "defun", field("name", $.symbol), $.lambda_list,
@@ -458,6 +472,10 @@ module.exports = grammar({
     declare: $ => in_parens("declare", repeat($._token)),
 
     documentation: _ => STRING,
+
+    defvar: $ => make_defvar($, "defvar"),
+
+    defparameter: $ => make_defvar($, "defparameter"),
 
   }, 
 
