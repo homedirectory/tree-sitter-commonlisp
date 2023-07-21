@@ -305,7 +305,9 @@ module.exports = grammar({
 
   rules: {
 
-    source: $ => repeat($._token),
+    source: $ => repeat($._element),
+
+    _element: $ => choice($._token, $._form),
 
     _token: $ => choice(
       $.number, 
@@ -332,6 +334,15 @@ module.exports = grammar({
       $.array,
       $.struct,
       $.pathname),
+
+    // ------------------------------------------------------------
+    // Tokens
+    // ------------------------------------------------------------
+    // Tokens include: 
+    // * objects (e.g., symbol, list, number)
+    // * special characters (e.g., dot, comma)
+    // * quotes and quasiquotes
+    // In essence - the most primitive language elements
 
     number: $ => prec(PREC.number, token(NUMBER)),
 
@@ -421,7 +432,13 @@ module.exports = grammar({
     // 2.4.8.19 Sharpsign Vertical-Bar (block comment)
     block_comment: $ => seq("#|", repeat(choice($.block_comment, /[^|]/, /\|[^#]/)), "|#"),
 
-    // TODO package (see 2.3.5)
+    // ------------------------------------------------------------
+    // Forms
+    // ------------------------------------------------------------
+    // Forms are either special forms, such as let, or macros, such as defun.
+    // Forms consist of tokens and other forms.
+
+    _form: $ => choice(),
 
   }, 
 
