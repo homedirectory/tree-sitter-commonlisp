@@ -7,6 +7,7 @@
 
 const PREC = {
   number: 50,
+  t: 43,
   package: 42,
   keyword: 41,
   symbol: 40
@@ -313,6 +314,7 @@ module.exports = grammar({
       $.list,
       $.quote,
       $.comment,
+      $.t,
       $.string,
       $.backquote,
       $.unquote,
@@ -353,6 +355,8 @@ module.exports = grammar({
 
     // 2.4.4 Semicolon
     comment: _ => token(/;.*/),
+
+    t: _ => prec(PREC.t, "t"),
 
     // TODO format specifiers
     string: _ => STRING,
