@@ -3,8 +3,11 @@ unquote simple
 ================================================================================
 
 `,1
+`, 1
 `,a
+`, a
 `,(a b)
+`, (a b)
 `(,a)
 `(a ,b)
 
@@ -12,7 +15,10 @@ unquote simple
 
 (source
  (backquote (unquote (number)))
+ (backquote (unquote (number)))
  (backquote (unquote (symbol)))
+ (backquote (unquote (symbol)))
+ (backquote (unquote (list (symbol) (symbol))))
  (backquote (unquote (list (symbol) (symbol))))
  (backquote (list (unquote (symbol))))
  (backquote (list (symbol) (unquote (symbol))))
@@ -23,15 +29,23 @@ unquote nested
 ================================================================================
 
 `,,a
+``,,a
+``, , a
 `,,(a b)
+``,,(a b)
 `(,,a)
+``(,,a)
 
 --------------------------------------------------------------------------------
 
 (source
  (backquote (unquote (unquote (symbol))))
+ (backquote (backquote (unquote (unquote (symbol)))))
+ (backquote (backquote (unquote (unquote (symbol)))))
  (backquote (unquote (unquote (list (symbol) (symbol)))))
+ (backquote (backquote (unquote (unquote (list (symbol) (symbol))))))
  (backquote (list (unquote (unquote (symbol)))))
+ (backquote (backquote (list (unquote (unquote (symbol))))))
 )
 
 ================================================================================
@@ -59,14 +73,20 @@ unquote_splicing simple
 ================================================================================
 
 `,@1
+`,@ 1
 `,@a
+`,@ a
 `,@(a b)
+`,@ (a b)
 `(,@a)
 `(a ,@b)
 
 `,.1
+`,. 1
 `,.a
+`,. a
 `,.(a b)
+`,. (a b)
 `(,.a)
 `(a ,.b)
 
@@ -74,13 +94,19 @@ unquote_splicing simple
 
 (source
  (backquote (unquote_splicing (number)))
+ (backquote (unquote_splicing (number)))
  (backquote (unquote_splicing (symbol)))
+ (backquote (unquote_splicing (symbol)))
+ (backquote (unquote_splicing (list (symbol) (symbol))))
  (backquote (unquote_splicing (list (symbol) (symbol))))
  (backquote (list (unquote_splicing (symbol))))
  (backquote (list (symbol) (unquote_splicing (symbol))))
 
  (backquote (unquote_splicing (number)))
+ (backquote (unquote_splicing (number)))
  (backquote (unquote_splicing (symbol)))
+ (backquote (unquote_splicing (symbol)))
+ (backquote (unquote_splicing (list (symbol) (symbol))))
  (backquote (unquote_splicing (list (symbol) (symbol))))
  (backquote (list (unquote_splicing (symbol))))
  (backquote (list (symbol) (unquote_splicing (symbol))))
