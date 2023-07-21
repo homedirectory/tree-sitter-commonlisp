@@ -428,7 +428,12 @@ module.exports = grammar({
 
     // 2.4.8.14 Sharpsign P
     pathname: $ => seq(/#[pP]/, STRING),
+
     // TODO sharpsigns (see 2.4.8)
+    // 2.4.8.15 Sharpsign =
+    // 2.4.8.17 Sharpsign + (feature expression)
+    // 2.4.8.18 Sharpsign - (feature expression)
+
     // 2.4.8.19 Sharpsign Vertical-Bar (block comment)
     block_comment: $ => seq("#|", repeat(choice($.block_comment, /[^|]/, /\|[^#]/)), "|#"),
 
