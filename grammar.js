@@ -478,8 +478,23 @@ module.exports = grammar({
 
     _body: $ => repeat1($._element),
 
-    // TODO &rest &keys &optional
-    lambda_list: $ => in_parens(repeat($.symbol)),
+    // TODO &key &allow-other-keys &aux
+    lambda_list: $ => in_parens(
+      repeat($.symbol), repeat($._lambda_keyword)),
+
+    _lambda_keyword: $ => choice($.rest, $.optional),
+
+    rest: $ => seq("&rest", $.symbol),
+
+    optional: $ => seq(
+      "&optional",
+      repeat(choice(
+        field("var", $.symbol),
+        in_parens(
+          field("var", $.symbol),
+          field("init", $._element),
+          optional(field("p", $.symbol)))))),
+
 
     declare: $ => in_parens("declare", repeat($._token)),
 
