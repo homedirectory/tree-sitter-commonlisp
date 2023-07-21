@@ -37,3 +37,14 @@
 
 (declare
   "declare" @keyword)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; defvar, defparameter
+
+(defvar
+  "defvar" @function.macro
+  name: (symbol) @variable)
+
+(defparameter
+  "defparameter" @function.macro
+  name: (symbol) @variable)
