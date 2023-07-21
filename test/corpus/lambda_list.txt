@@ -1,0 +1,72 @@
+================================================================================
+lambda_list - &rest
+================================================================================
+
+(defun f (&rest args))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defun name: (symbol) 
+    (lambda_list (rest (symbol))))
+  )
+
+================================================================================
+lambda_list - &optional single var
+================================================================================
+
+(defun f (&optional x))
+(defun f (&optional (x 1)))
+(defun f (&optional (x 1 xp)))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defun name: (symbol) 
+    (lambda_list (optional var: (symbol))))
+
+  (defun name: (symbol) 
+    (lambda_list (optional var: (symbol) init: (number))))
+
+  (defun name: (symbol) 
+    (lambda_list (optional var: (symbol) init: (number) p: (symbol))))
+  )
+
+================================================================================
+lambda_list - &optional multiple vars
+================================================================================
+
+(defun f (&optional x y))
+(defun f (&optional x (y 1)))
+(defun f (&optional x (y 1) z))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defun name: (symbol) 
+    (lambda_list (optional var: (symbol) var: (symbol))))
+
+  (defun name: (symbol) 
+    (lambda_list (optional var: (symbol)
+                           var: (symbol) init: (number))))
+
+  (defun name: (symbol) 
+    (lambda_list (optional var: (symbol)
+                           var: (symbol) init: (number)
+                           var: (symbol))))
+  )
+
+================================================================================
+lambda_list - &rest and &optional
+================================================================================
+
+(defun f (&rest args &optional x))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defun name: (symbol) 
+    (lambda_list (rest (symbol))
+                 (optional var: (symbol))))
+  )
+
