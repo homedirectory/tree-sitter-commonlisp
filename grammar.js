@@ -7,6 +7,8 @@
 
 const PREC = {
   number: 50,
+  package: 42,
+  keyword: 41,
   symbol: 40
 };
 
@@ -21,7 +23,13 @@ const BACKSLASH = "\\";
 
 const SYNTAX_TYPES = {
 
-  constituent: /[0-9:<=>?!@a-zA-Z$%&^_*{+}~\x08.\x7f/\-\[\]]/,
+  // we exclude the package marker from constituent chars because it is special:
+  // it delimits a package from a symbol, and must be escaped to be a part of a
+  // symbol
+  constituent: /[0-9<=>?!@a-zA-Z$%&^_*{+}~\x08.\x7f/\-\[\]]/,
+
+  // pseudo syntax type for chars that must be escaped in a symbol
+  dangerous: /:/,
 
   macro_char_term: /[;,"'`()]/,
   macro_char_noterm: "#",
@@ -32,6 +40,8 @@ const SYNTAX_TYPES = {
   whitespace: WHITESPACE
 
 };
+
+const PACKAGE_MARKER = ':';
 
 // returns a rule that matches an escaped character given by the argument
 function escape_single(c) {
@@ -180,6 +190,7 @@ const FLOAT = choice(
 
 const ANY_CHAR = choice(
   SYNTAX_TYPES.constituent,
+  SYNTAX_TYPES.dangerous,
   SYNTAX_TYPES.macro_char_term,
   SYNTAX_TYPES.macro_char_noterm,
   SYNTAX_TYPES.escape_single,
@@ -199,7 +210,8 @@ const MULTI_ESCAPED_SYMBOL = seq(
   repeat(choice(
     choice(
       SYNTAX_TYPES.constituent, SYNTAX_TYPES.macro_char_term,
-      SYNTAX_TYPES.macro_char_noterm, SYNTAX_TYPES.whitespace),
+      SYNTAX_TYPES.macro_char_noterm, SYNTAX_TYPES.whitespace,
+      SYNTAX_TYPES.dangerous),
     seq(SYNTAX_TYPES.escape_single, SYNTAX_TYPES.escape_single),
     seq(SYNTAX_TYPES.escape_single, SYNTAX_TYPES.escape_multi),
   )),
@@ -293,6 +305,8 @@ module.exports = grammar({
 
     _token: $ => choice(
       $.number, 
+      $.package,
+      $.keyword,
       $.symbol, 
       $.list,
       $.quote,
@@ -316,6 +330,18 @@ module.exports = grammar({
     number: $ => prec(
       PREC.number,
       token(choice(INTEGER, RATIO, FLOAT))),
+
+    package: $ => prec(PREC.package,
+      seq(
+        field("pkg", $.symbol),
+        $.pkg_mark,
+        field("sym", $.symbol))),
+
+    pkg_mark: $ => PACKAGE_MARKER,
+
+    // keyword:foo will parse as $.package even if optional("keyword") was prepended but that's fine
+    keyword: $ => prec(PREC.keyword, 
+      seq($.pkg_mark, $.symbol)),
 
     symbol: $ => prec(PREC.symbol, token(SYMBOL)),
 
