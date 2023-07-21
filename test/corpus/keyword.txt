@@ -1,0 +1,20 @@
+================================================================================
+keyword
+================================================================================
+
+:abc
+:123
+keyword:start
+KEYWORD:start
+KeYwOrD:start
+
+--------------------------------------------------------------------------------
+
+(source
+(keyword (pkg_mark) (symbol))
+(keyword (pkg_mark) (symbol))
+(package (symbol) (pkg_mark) (symbol))
+(package (symbol) (pkg_mark) (symbol))
+(package (symbol) (pkg_mark) (symbol))
+)
+
