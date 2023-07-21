@@ -7,8 +7,8 @@ let simple
 --------------------------------------------------------------------------------
 
 (source
-  (let (let_binds (let_bind :var (symbol) :init (number))
-                  (let_bind :var (symbol) :init (number)))
+  (let (let_binds (let_bind var: (symbol) init: (number))
+                  (let_bind var: (symbol) init: (number)))
     (list (symbol) (symbol) (symbol)))
   )
 
@@ -21,8 +21,8 @@ let*
 --------------------------------------------------------------------------------
 
 (source
-  (let (let_binds (let_bind :var (symbol) :init (number))
-                  (let_bind :var (symbol) :init (number)))
+  (let (let_binds (let_bind var: (symbol) init: (number))
+                  (let_bind var: (symbol) init: (number)))
     (list (symbol) (symbol) (symbol)))
   )
 
@@ -47,8 +47,8 @@ let - bound vars with no init-form
 --------------------------------------------------------------------------------
 
 (source
-  (let (let_binds (let_bind :var (symbol)) 
-                  (let_bind :var (symbol)))
+  (let (let_binds (let_bind var: (symbol)) 
+                  (let_bind var: (symbol)))
     (list (symbol) (symbol) (symbol)))
   )
 
@@ -61,8 +61,8 @@ let - mixed bound vars (with and without init-form)
 --------------------------------------------------------------------------------
 
 (source
-  (let (let_binds (let_bind :var (symbol)) 
-                  (let_bind :var (symbol) :init (number)))
+  (let (let_binds (let_bind var: (symbol)) 
+                  (let_bind var: (symbol) init: (number)))
     (list (symbol) (symbol) (symbol)))
   )
 
