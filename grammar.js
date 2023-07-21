@@ -460,9 +460,12 @@ module.exports = grammar({
       $.defparameter,
       $.let),
 
+    // --- defun ---
+
     defun: $ => in_parens(
       "defun", field("name", $.symbol), $.lambda_list,
       repeat($.declare), 
+      // choice() helps resolve a conflict between string as value and string as documentation
       optional(choice(
         $.string, 
         seq($.documentation, repeat1($._element))))),
@@ -474,11 +477,14 @@ module.exports = grammar({
 
     documentation: _ => STRING,
 
+    // --- defvar, defparameter ---
+
     defvar: $ => make_defvar($, "defvar"),
 
     defparameter: $ => make_defvar($, "defparameter"),
 
-    // covers both let and let*
+    // --- let, let* ---
+
     let: $ => in_parens(
       choice("let", "let*"),
       $.let_binds,
