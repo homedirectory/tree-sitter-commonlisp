@@ -1,8 +1,14 @@
 ;;;;; Highlight queries for tree-sitter-commonlisp
 
 ;;;; Preface
+
 ;;; We are using @keyword for names of special forms, such as let,
 ;;; and @function.macro for macros, such as defun.
+
+;;; Order of query definitions matters: queries that are specified last have 
+;;; higher precedence.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ["(" ")"] @punctuation.bracket
 
@@ -63,3 +69,10 @@
   ["let" "let*"] @keyword
   (let_binds 
     (let_bind var: (symbol) @variable)))
+
+
+(
+ (symbol) @variable.special
+ (#match? @variable.special "^\\*.+\\*$")
+ )
+
