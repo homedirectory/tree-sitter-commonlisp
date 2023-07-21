@@ -167,6 +167,8 @@ const FLOAT = choice(
         repeat(DECIMAL_DIGIT))),
     EXPONENT));
 
+const NUMBER = choice(INTEGER, RATIO, FLOAT);
+
 // =============================================================================
 // 2.3.4 Symbols as Tokens
 // =============================================================================
@@ -327,9 +329,7 @@ module.exports = grammar({
       $.struct,
       $.pathname),
 
-    number: $ => prec(
-      PREC.number,
-      token(choice(INTEGER, RATIO, FLOAT))),
+    number: $ => prec(PREC.number, token(NUMBER)),
 
     package: $ => prec(PREC.package,
       seq(
