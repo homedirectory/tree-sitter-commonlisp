@@ -11,7 +11,9 @@ const PREC = {
   t: 43,
   package: 42,
   keyword: 41,
-  symbol: 40
+  symbol: 40,
+  documentation: 1,
+  string: 0,
 };
 
 const WHITESPACE = /[ \t\n\v\f\r\u{0085}\u{00A0}\u{1680}\u{2000}-\u{200A}\u{2028}\u{2029}\u{202F}\u{205F}\u{3000}]+/u;
@@ -314,6 +316,10 @@ module.exports = grammar({
 
   extras: $ => [WHITESPACE, $.block_comment],
 
+  conflicts: $ => [
+    [$.documentation, $.string],
+  ],
+
   rules: {
 
     source: $ => repeat($._element),
@@ -385,7 +391,7 @@ module.exports = grammar({
     t: _ => prec(PREC.t, "t"),
 
     // TODO format specifiers
-    string: _ => STRING,
+    string: _ => prec(PREC.string, STRING),
 
     backquote: $ => seq(BACKQUOTE, $._token),
 
@@ -465,17 +471,18 @@ module.exports = grammar({
     defun: $ => in_parens(
       "defun", field("name", $.symbol), $.lambda_list,
       repeat($.declare), 
-      // choice() helps resolve a conflict between string as value and string as documentation
-      optional(choice(
-        $.string, 
-        seq($.documentation, repeat1($._element))))),
+      optional(choice($._doc_body, $._body))),
+
+    _doc_body: $ => seq($.documentation, repeat1($._element)),
+
+    _body: $ => repeat1($._element),
 
     // TODO &rest &keys &optional
     lambda_list: $ => in_parens(repeat($.symbol)),
 
     declare: $ => in_parens("declare", repeat($._token)),
 
-    documentation: _ => STRING,
+    documentation: _ => prec(PREC.documentation, STRING),
 
     // --- defvar, defparameter ---
 
