@@ -2,6 +2,7 @@
 
 (string) @string
 (pathname) @string.special
+(documentation) @string
 
 (number) @number
 
