@@ -1,3 +1,9 @@
+;;;;; Highlight queries for tree-sitter-commonlisp
+
+;;;; Preface
+;;; We are using @keyword for names of special forms, such as let,
+;;; and @function.macro for macros, such as defun.
+
 ["(" ")"] @punctuation.bracket
 
 (string) @string
@@ -20,3 +26,14 @@
 (list . (symbol) @function)
 
 (keyword) @keyword.lisp
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; defun
+
+(defun 
+  "defun" @function.macro
+  name: (symbol) @function
+  (lambda_list (symbol) @parameter))
+
+(declare
+  "declare" @keyword)
