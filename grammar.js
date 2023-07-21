@@ -462,6 +462,7 @@ module.exports = grammar({
 
     _form: $ => choice(
       $.defun,
+      $.lambda,
       $.defvar,
       $.defparameter,
       $.let),
@@ -483,6 +484,13 @@ module.exports = grammar({
     declare: $ => in_parens("declare", repeat($._token)),
 
     documentation: _ => prec(PREC.documentation, STRING),
+
+    // --- lambda  ---
+
+    lambda: $ => in_parens(
+      "lambda", $.lambda_list,
+      repeat($.declare), 
+      optional(choice($._doc_body, $._body))),
 
     // --- defvar, defparameter ---
 
