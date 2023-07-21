@@ -48,3 +48,11 @@
 (defparameter
   "defparameter" @function.macro
   name: (symbol) @variable)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; let, let*
+
+(let
+  ["let" "let*"] @keyword
+  (let_binds 
+    (let_bind var: (symbol) @variable)))
