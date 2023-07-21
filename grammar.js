@@ -373,7 +373,7 @@ module.exports = grammar({
 
     list: $ => $._list,
 
-    _list: $ => in_parens(repeat($._token)),
+    _list: $ => in_parens(repeat($._element)),
 
     quote: $ => seq(SINGLE_QUOTE, $._token),
 
