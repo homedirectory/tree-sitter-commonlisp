@@ -457,7 +457,8 @@ module.exports = grammar({
     _form: $ => choice(
       $.defun,
       $.defvar,
-      $.defparameter),
+      $.defparameter,
+      $.let),
 
     defun: $ => in_parens(
       "defun", field("name", $.symbol), $.lambda_list,
@@ -476,6 +477,19 @@ module.exports = grammar({
     defvar: $ => make_defvar($, "defvar"),
 
     defparameter: $ => make_defvar($, "defparameter"),
+
+    // covers both let and let*
+    let: $ => in_parens(
+      choice("let", "let*"),
+      $.let_binds,
+      repeat($.declare),
+      repeat($._element)),
+
+    let_binds: $ => in_parens(repeat($.let_bind)),
+
+    let_bind: $ => choice(
+      field("var", $.symbol),
+      in_parens(field("var", $.symbol), optional(field("init", $._element)))),
 
   }, 
 
