@@ -438,7 +438,21 @@ module.exports = grammar({
     // Forms are either special forms, such as let, or macros, such as defun.
     // Forms consist of tokens and other forms.
 
-    _form: $ => choice(),
+    _form: $ => choice($.defun),
+
+    defun: $ => in_parens(
+      "defun", field("name", $.symbol), $.lambda_list,
+      repeat($.declare), 
+      optional(choice(
+        $.string, 
+        seq($.documentation, repeat1($._element))))),
+
+    // TODO &rest &keys &optional
+    lambda_list: $ => in_parens(repeat($.symbol)),
+
+    declare: $ => in_parens("declare", repeat($._token)),
+
+    documentation: _ => STRING,
 
   }, 
 
