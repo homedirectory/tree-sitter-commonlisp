@@ -1,3 +1,12 @@
+// =============================================================================
+// Preface
+// =============================================================================
+// -- /regex/ vs choice()
+// Wherever it is practical choice() is prefered over /regex/ for its greater
+// usability in queries. Consider matching "ab" or "ac", we could use /a[bc]/
+// or choice("ab", "ac"). Choosing the former would prevent us from using
+// ["ab", "ac"] in a query, while the latter just works. Although, it should
+// be noted that choice() increases the size of the generated parser.
 
 // 2.3.4 Symbols as Tokens
 // Any token that is not a potential number, does not contain a package marker,
@@ -266,7 +275,7 @@ const STRING = token(seq(
 // Anywhere ',@' may be used, ',.' may be used instead to indicate
 // that the list structure produced by the form can be operated on destructively
 // (i.e., using nconc rather than append)
-const UNQUOTE_SPLICING = /,[@.]/;
+const UNQUOTE_SPLICING = choice(",@", ",.");
 
 // ==============================================
 // Sharpsign
