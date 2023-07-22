@@ -94,7 +94,8 @@
               . "*" @character.special))
 (bits) @number
 
-(function . "#'" @character.special (symbol) @function)
+(function . "#'" @character.special)
+(function . "#'" (symbol) @function)
 
 (uninterned_symbol . "#:" @character.special)
 
