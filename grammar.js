@@ -377,6 +377,8 @@ module.exports = grammar({
 
     symbol: $ => prec(PREC.symbol, token(SYMBOL)),
 
+    _any_symbol: $ => choice($.package, $.keyword, $.symbol),
+
     list: $ => $._list,
 
     _list: $ => in_parens(repeat($._element)),
@@ -482,10 +484,12 @@ module.exports = grammar({
     lambda_list: $ => in_parens(
       repeat($.symbol), repeat($._lambda_keyword)),
 
-    _lambda_keyword: $ => choice($.rest, $.optional),
-
+    _lambda_keyword: $ => choice($.rest, $.optional, $.key),
+    
+    // &rest
     rest: $ => seq("&rest", $.symbol),
 
+    // &optional
     optional: $ => seq(
       "&optional",
       repeat(choice(
@@ -495,6 +499,27 @@ module.exports = grammar({
           field("init", $._element),
           optional(field("p", $.symbol)))))),
 
+    // &key - 3.4.1.4 Specifiers for keyword parameters
+    // [&key 
+    //   {var | 
+    //     ({var | (keyword-name var)} 
+    //      [init-form [supplied-p-parameter]])}* 
+    //    [&allow-other-keys]]
+    key: $ => seq(
+      "&key",
+      repeat(choice(
+        field("var", $.symbol),
+        in_parens(
+          choice(
+            field("var", $.symbol),
+            in_parens(field("kwd_name", $._any_symbol), field("var", $.symbol))),
+          optional(seq(
+            field("init", $._element),
+            optional(field("p", $.symbol))))))),
+      optional($.allow_other_keys)),
+
+    // &allow-other-keys
+    allow_other_keys: _ => "&allow-other-keys",
 
     declare: $ => in_parens("declare", repeat($._token)),
 
