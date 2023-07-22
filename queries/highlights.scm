@@ -33,7 +33,7 @@
 (keyword) @keyword.lisp
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; defun
+;;;; defun
 
 (defun 
   "defun" @function.macro
@@ -44,14 +44,14 @@
   "declare" @keyword)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; lambda
+;;;; lambda
 
 (lambda
   "lambda" @keyword
   (lambda_list (symbol) @parameter))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; lambda-list keywords
+;;;; lambda-list keywords
 (lambda_list
   [
    (optional . "&optional" @keyword.lambda)
@@ -63,7 +63,7 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; defvar, defparameter
+;;;; defvar, defparameter
 
 (defvar
   "defvar" @function.macro
@@ -74,7 +74,7 @@
   name: (symbol) @variable)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; let, let*
+;;;; let, let*
 
 (let
   ["let" "let*"] @keyword
@@ -111,6 +111,9 @@
 (unquote . "," @character.special)
 
 (unquote_splicing . [",@" ",."] @character.special)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Miscellaneous
 
 ;; enforce higher precedence than regular symbols
 (

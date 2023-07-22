@@ -456,7 +456,10 @@ module.exports = grammar({
     // Forms
     // ------------------------------------------------------------
     // Forms are either special forms, such as let, or macros, such as defun.
-    // Forms consist of tokens and other forms.
+    // Forms consist of tokens and other forms. 
+    // A better but longer name is "compound form".
+    //
+    // See 3.1.2.1.2 Conses as Forms
 
     _form: $ => choice(
       $.defun,
