@@ -375,6 +375,10 @@ module.exports = grammar({
     keyword: $ => prec(PREC.keyword, 
       seq($.pkg_mark, $.symbol)),
 
+    // TODO consider replacing symbol as token by symbol as a compound rule, for example:
+    // foo     => (symbol (sym))
+    // :foo    => (symbol (keyword))
+    // bar:foo => (symbol (package) (sym))
     symbol: $ => prec(PREC.symbol, token(SYMBOL)),
 
     _any_symbol: $ => choice($.package, $.keyword, $.symbol),
