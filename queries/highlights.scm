@@ -92,6 +92,7 @@
 (bitvector . ("#" @character.special 
               . len: (number)? @character.special
               . "*" @character.special))
+(bits) @number
 
 (function . "#'" @character.special (symbol) @function)
 

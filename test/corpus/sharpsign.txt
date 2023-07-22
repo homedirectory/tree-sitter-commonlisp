@@ -68,20 +68,16 @@ bit vector
 #1*01
 #44*
 #44*10101010
-#44*23
-#*abc
 
 --------------------------------------------------------------------------------
 
 (source
  (bitvector)
  (bitvector len: (number))
+ (bitvector len: (number) (bits))
+ (bitvector len: (number) (bits))
  (bitvector len: (number))
- (bitvector len: (number))
- (bitvector len: (number))
- (bitvector len: (number))
- (bitvector len: (number))
- (bitvector)
+ (bitvector len: (number) (bits))
 )
 
 ===============================================================================

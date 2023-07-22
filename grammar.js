@@ -412,15 +412,14 @@ module.exports = grammar({
       $._list),
 
     // 2.4.8.4 Sharpsign Asterisk
-    // can't specify only [01] after asterisk because #*0123 would parse as
-    // (bitvector) (number), which is bound to confuse people; for another
-    // example #*01a would parse as (bitvector) (symbol)
-    // TODO transform from token to composite of bits
     bitvector: $ => seq(
       SHARPSIGN, 
       optional(field("len", alias(UNSIGNED_DECIMAL_INTEGER, $.number))), 
       ASTERISK, 
-      token.immediate(repeat(SYNTAX_TYPES.constituent))),
+      // need alias() to use token.immediate() and represent as (bits)
+      optional(alias(token.immediate(/[01]+/), $.bits))),
+
+    bits: $ => /[01]+/,
 
     // 2.4.8.5 Sharpsign Colon
     uninterned_symbol: $ => seq("#:", $.symbol),
