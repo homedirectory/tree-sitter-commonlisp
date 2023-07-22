@@ -480,7 +480,6 @@ module.exports = grammar({
 
     _body: $ => repeat1($._element),
 
-    // TODO &key &allow-other-keys &aux
     lambda_list: $ => in_parens(
       repeat($.symbol), repeat($._lambda_keyword)),
 
