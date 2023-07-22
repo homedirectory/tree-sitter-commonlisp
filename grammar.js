@@ -246,14 +246,6 @@ function in_parens() {
 }
 
 // =============================================================================
-// Quote
-// =============================================================================
-// See 2.4.3 Single-Quote
-
-const SINGLE_QUOTE = "'";
-
-
-// =============================================================================
 // String
 // =============================================================================
 // See 2.4.5 Double-Quote
@@ -270,9 +262,6 @@ const STRING = token(seq(
 // Backquote, unquote, unquote-splicing
 // =============================================================================
 // See 2.4.6 Backquote, 2.4.7 Comma
-
-const BACKQUOTE = "`";
-const COMMA = ",";
 
 // Anywhere ',@' may be used, ',.' may be used instead to indicate
 // that the list structure produced by the form can be operated on destructively
@@ -291,12 +280,6 @@ const UNSIGNED_DECIMAL_INTEGER = /[0-9]+/;
 
 // 2.4.8.4 Sharpsign Asterisk (bit vector)
 const ASTERISK = "*";
-
-// 2.4.8.5 Sharpsign Colon (uninterned symbol)
-const SHARPSIGN_COLON = "#:";
-
-// 2.4.8.6 Sharpsign Dot (read-eval / sharp-dot)
-const SHARPSIGN_DOT = "#.";
 
 
 // Macro DEFPARAMETER, DEFVAR
@@ -387,7 +370,7 @@ module.exports = grammar({
 
     _list: $ => in_parens(repeat($._element)),
 
-    quote: $ => seq(SINGLE_QUOTE, $._token),
+    quote: $ => seq("'", $._token),
 
     // 2.4.4 Semicolon
     comment: _ => token(/;.*/),
@@ -399,19 +382,19 @@ module.exports = grammar({
     // TODO format specifiers
     string: _ => prec(PREC.string, STRING),
 
-    backquote: $ => seq(BACKQUOTE, $._token),
+    backquote: $ => seq("`", $._token),
 
-    unquote: $ => seq(COMMA, $._token),
+    unquote: $ => seq(",", $._token),
 
     unquote_splicing: $ => seq(UNQUOTE_SPLICING, $._token),
 
     dot: $ => DOT,
     
     // 2.4.8.1 Sharpsign Backslash
-    character: $ => token(seq(SHARPSIGN, BACKSLASH, /.+/)),
+    character: $ => token(seq("#\\", /.+/)),
 
     // 2.4.8.2 Sharpsign Single-Quote
-    function: $ => seq(SHARPSIGN, SINGLE_QUOTE, $._token),
+    function: $ => seq("#'", $._token),
 
     // 2.4.8.3 Sharpsign Left-Parenthesis
     vector: $ => seq(
@@ -429,10 +412,10 @@ module.exports = grammar({
         ASTERISK, repeat(SYNTAX_TYPES.constituent))),
 
     // 2.4.8.5 Sharpsign Colon
-    uninterned_symbol: $ => token(seq(SHARPSIGN_COLON, SYMBOL)),
+    uninterned_symbol: $ => token(seq("#:", SYMBOL)),
 
     // 2.4.8.6 Sharpsign Dot
-    sharp_dot: $ => seq(SHARPSIGN_DOT, $._token),
+    sharp_dot: $ => seq("#.", $._token),
 
     // 2.4.8.11 Sharpsign C (complex)
     complex: $ => seq("#C", in_parens($.number, $.number)),
