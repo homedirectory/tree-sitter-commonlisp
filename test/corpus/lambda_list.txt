@@ -155,3 +155,19 @@ lambda_list - &aux
     (lambda_list (aux var: (symbol) var: (symbol) init: (number))))
   )
 
+================================================================================
+lambda_list - all keywords together
+================================================================================
+
+(lambda (a &optional (b 3) &rest args &key c (d a) &allow-other-keys))
+
+--------------------------------------------------------------------------------
+
+(source
+  (lambda
+    (lambda_list (symbol)
+                 (optional var: (symbol) init: (number))
+                 (rest (symbol))
+                 (key var: (symbol) var: (symbol) init: (symbol) (allow_other_keys))))
+  )
+
