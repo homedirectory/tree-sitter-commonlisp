@@ -183,8 +183,8 @@ pathname
 --------------------------------------------------------------------------------
 
 (source
- (pathname)
- (pathname)
- (pathname)
+ (pathname (string))
+ (pathname (string))
+ (pathname (string))
 )
 

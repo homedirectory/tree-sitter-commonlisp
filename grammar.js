@@ -433,7 +433,7 @@ module.exports = grammar({
         repeat(seq(field("slot", $.symbol), field("value", $._token))))),
 
     // 2.4.8.14 Sharpsign P
-    pathname: $ => seq(/#[pP]/, STRING),
+    pathname: $ => seq(/#[pP]/, $.string),
 
     // TODO sharpsigns (see 2.4.8)
     // 2.4.8.15 Sharpsign =
