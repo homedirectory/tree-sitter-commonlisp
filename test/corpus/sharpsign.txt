@@ -51,11 +51,11 @@ vector
 
 (source
  (vector)
- (vector)
+ (vector len: (number))
  (vector (symbol) (symbol))
- (vector (symbol) (symbol))
- (vector (symbol) (symbol))
- (vector)
+ (vector len: (number) (symbol) (symbol))
+ (vector len: (number) (symbol) (symbol))
+ (vector len: (number))
 )
 
 ================================================================================

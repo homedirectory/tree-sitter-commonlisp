@@ -86,7 +86,7 @@
 
 ;; don't touch (character)
 
-(vector . "#" @character.special)
+(vector . ("#" @character.special . len: (number)? @character.special))
 
 (function . "#'" @character.special (symbol) @function)
 

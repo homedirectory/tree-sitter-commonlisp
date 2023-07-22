@@ -408,7 +408,7 @@ module.exports = grammar({
     // 2.4.8.3 Sharpsign Left-Parenthesis
     vector: $ => seq(
       SHARPSIGN, 
-      optional(UNSIGNED_DECIMAL_INTEGER), 
+      optional(field("len", alias(UNSIGNED_DECIMAL_INTEGER, $.number))), 
       $._list),
 
     // 2.4.8.4 Sharpsign Asterisk
