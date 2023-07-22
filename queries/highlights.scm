@@ -13,7 +13,6 @@
 ["(" ")"] @punctuation.bracket
 
 (string) @string
-(pathname) @string.special
 (documentation) @string
 
 (number) @number
@@ -82,6 +81,21 @@
   (let_binds 
     (let_bind var: (symbol) @variable)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Sharpsign
+
+;; don't touch (character)
+
+(vector . "#" @character.special)
+
+(function . "#'" @character.special (symbol) @function)
+
+(uninterned_symbol . "#:" @character.special)
+
+(sharp_dot . "#." @character.special)
+
+;; TODO match #[pP] somehow (_ with #match? doesn't work)
+; (pathname . "#p" @character.special)
 
 ;; enforce higher precedence than regular symbols
 (
