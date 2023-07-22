@@ -500,11 +500,11 @@ module.exports = grammar({
           optional(field("p", $.symbol)))))),
 
     // &key - 3.4.1.4 Specifiers for keyword parameters
-    // [&key 
+    // &key 
     //   {var | 
     //     ({var | (keyword-name var)} 
     //      [init-form [supplied-p-parameter]])}* 
-    //    [&allow-other-keys]]
+    //    [&allow-other-keys]
     key: $ => seq(
       "&key",
       repeat(choice(
