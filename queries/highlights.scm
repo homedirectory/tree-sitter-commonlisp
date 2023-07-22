@@ -52,6 +52,18 @@
   (lambda_list (symbol) @parameter))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; lambda-list keywords
+(lambda_list
+  [
+   (optional . "&optional" @keyword.lambda)
+   (rest . "&rest" @keyword.lambda)
+   (key . "&key" @keyword.lambda)
+   (key (allow_other_keys) @keyword.lambda .)
+   (aux . "&aux" @keyword.lambda)
+   ]
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; defvar, defparameter
 
 (defvar
@@ -71,6 +83,7 @@
     (let_bind var: (symbol) @variable)))
 
 
+;; enforce higher precedence than regular symbols
 (
  (symbol) @variable.special
  (#match? @variable.special "^\\*.+\\*$")
