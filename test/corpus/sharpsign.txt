@@ -95,9 +95,9 @@ uninterned symbol
 --------------------------------------------------------------------------------
 
 (source
- (uninterned_symbol)
- (uninterned_symbol)
- (uninterned_symbol)
+ (uninterned_symbol (symbol))
+ (uninterned_symbol (symbol))
+ (uninterned_symbol (symbol))
 )
 
 ===============================================================================

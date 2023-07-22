@@ -412,7 +412,7 @@ module.exports = grammar({
         ASTERISK, repeat(SYNTAX_TYPES.constituent))),
 
     // 2.4.8.5 Sharpsign Colon
-    uninterned_symbol: $ => token(seq("#:", SYMBOL)),
+    uninterned_symbol: $ => seq("#:", $.symbol),
 
     // 2.4.8.6 Sharpsign Dot
     sharp_dot: $ => seq("#.", $._token),
