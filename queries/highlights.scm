@@ -97,6 +97,21 @@
 ;; TODO match #[pP] somehow (_ with #match? doesn't work)
 ; (pathname . "#p" @character.special)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; special characters
+
+(dot) @character.special
+
+(pkg_mark) @character.special
+
+(quote . "'" @character.special)
+
+(backquote . "`" @character.special)
+
+(unquote . "," @character.special)
+
+(unquote_splicing . [",@" ",."] @character.special)
+
 ;; enforce higher precedence than regular symbols
 (
  (symbol) @variable.special
