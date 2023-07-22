@@ -408,13 +408,13 @@ module.exports = grammar({
     // 2.4.8.3 Sharpsign Left-Parenthesis
     vector: $ => seq(
       SHARPSIGN, 
-      optional(field("len", alias(UNSIGNED_DECIMAL_INTEGER, $.number))), 
+      optional(field("len", alias(token.immediate(UNSIGNED_DECIMAL_INTEGER), $.number))), 
       $._list),
 
     // 2.4.8.4 Sharpsign Asterisk
     bitvector: $ => seq(
       SHARPSIGN, 
-      optional(field("len", alias(UNSIGNED_DECIMAL_INTEGER, $.number))), 
+      optional(field("len", alias(token.immediate(UNSIGNED_DECIMAL_INTEGER), $.number))), 
       ASTERISK, 
       // need alias() to use token.immediate() and represent as (bits)
       optional(alias(token.immediate(/[01]+/), $.bits))),
