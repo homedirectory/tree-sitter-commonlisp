@@ -415,10 +415,12 @@ module.exports = grammar({
     // can't specify only [01] after asterisk because #*0123 would parse as
     // (bitvector) (number), which is bound to confuse people; for another
     // example #*01a would parse as (bitvector) (symbol)
-    bitvector: $ => token(
-      seq(SHARPSIGN, 
-        optional(UNSIGNED_DECIMAL_INTEGER), 
-        ASTERISK, repeat(SYNTAX_TYPES.constituent))),
+    // TODO transform from token to composite of bits
+    bitvector: $ => seq(
+      SHARPSIGN, 
+      optional(field("len", alias(UNSIGNED_DECIMAL_INTEGER, $.number))), 
+      ASTERISK, 
+      token.immediate(repeat(SYNTAX_TYPES.constituent))),
 
     // 2.4.8.5 Sharpsign Colon
     uninterned_symbol: $ => seq("#:", $.symbol),

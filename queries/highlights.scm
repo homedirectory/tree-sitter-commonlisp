@@ -86,7 +86,12 @@
 
 ;; don't touch (character)
 
-(vector . ("#" @character.special . len: (number)? @character.special))
+(vector . ("#" @character.special 
+           . len: (number)? @character.special))
+
+(bitvector . ("#" @character.special 
+              . len: (number)? @character.special
+              . "*" @character.special))
 
 (function . "#'" @character.special (symbol) @function)
 

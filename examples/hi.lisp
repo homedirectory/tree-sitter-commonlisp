@@ -14,6 +14,7 @@
 
 (setf vec #(1 2 3))
 (setf vec #5(1 2 3))
+(setf bitvec #22*10101010)
 
 #:abc
 

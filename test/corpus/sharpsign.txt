@@ -75,12 +75,12 @@ bit vector
 
 (source
  (bitvector)
- (bitvector)
- (bitvector)
- (bitvector)
- (bitvector)
- (bitvector)
- (bitvector)
+ (bitvector len: (number))
+ (bitvector len: (number))
+ (bitvector len: (number))
+ (bitvector len: (number))
+ (bitvector len: (number))
+ (bitvector len: (number))
  (bitvector)
 )
 
