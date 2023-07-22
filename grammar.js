@@ -484,7 +484,7 @@ module.exports = grammar({
     lambda_list: $ => in_parens(
       repeat($.symbol), repeat($._lambda_keyword)),
 
-    _lambda_keyword: $ => choice($.rest, $.optional, $.key),
+    _lambda_keyword: $ => choice($.rest, $.optional, $.key, $.aux),
     
     // &rest
     rest: $ => seq("&rest", $.symbol),
@@ -520,6 +520,13 @@ module.exports = grammar({
 
     // &allow-other-keys
     allow_other_keys: _ => "&allow-other-keys",
+
+    // &aux {var | (var [init-form])}*
+    aux: $ => seq(
+      "&aux",
+      repeat(choice(
+        field("var", $.symbol), 
+        in_parens(field("var", $.symbol), optional(field("init", $._element)))))),
 
     declare: $ => in_parens("declare", repeat($._token)),
 
