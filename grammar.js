@@ -428,7 +428,7 @@ module.exports = grammar({
     sharp_dot: $ => seq("#.", $._token),
 
     // 2.4.8.11 Sharpsign C (complex)
-    complex: $ => seq("#C", in_parens($.number, $.number)),
+    complex: $ => seq(choice("#c", "#C"), in_parens($.number, $.number)),
 
     // 2.4.8.12 Sharpsign A (array)
     array: $ => choice(

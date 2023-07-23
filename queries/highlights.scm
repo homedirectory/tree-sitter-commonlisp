@@ -105,6 +105,8 @@
         . name: (symbol) @structure
         slot: (symbol) @field)
 
+(complex . ["#c" "#C"] @character.special)
+
 ;; TODO match #[pP] somehow (_ with #match? doesn't work)
 ; (pathname . "#p" @character.special)
 
