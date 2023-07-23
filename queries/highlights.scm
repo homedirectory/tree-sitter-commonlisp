@@ -101,6 +101,10 @@
 
 (sharp_dot . "#." @character.special)
 
+(struct . ["#s" "#S"] @character.special 
+        . name: (symbol) @structure
+        slot: (symbol) @field)
+
 ;; TODO match #[pP] somehow (_ with #match? doesn't work)
 ; (pathname . "#p" @character.special)
 

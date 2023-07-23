@@ -437,7 +437,7 @@ module.exports = grammar({
 
     // 2.4.8.13 Sharpsign S (structure)
     struct: $ => seq(
-      /#[sS]/,
+      choice("#s", "#S"),
       in_parens(
         field("name", $.symbol),
         repeat(seq(field("slot", $.symbol), field("value", $._token))))),

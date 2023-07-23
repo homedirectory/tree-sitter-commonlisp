@@ -44,3 +44,6 @@ pkg:sym
 (setf ** 'huh)
 
 '(a b c)
+
+;; struct
+#s(man joe 32)
