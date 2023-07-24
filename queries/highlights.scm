@@ -79,9 +79,10 @@
 ;;;; let, let*
 
 (let
-  ["let" "let*"] @keyword
-  (let_binds 
-    (let_bind var: (symbol) @variable)))
+  ["let" "let*"] @keyword)
+
+(let_binds 
+  (let_bind var: (symbol) @variable))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Sharpsign
