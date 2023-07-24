@@ -37,8 +37,7 @@
 
 (defun 
   "defun" @function.macro
-  name: (symbol) @function
-  (lambda_list (symbol) @parameter))
+  name: (symbol) @function)
 
 (declare
   "declare" @keyword)
@@ -47,11 +46,14 @@
 ;;;; lambda
 
 (lambda
-  "lambda" @keyword
-  (lambda_list (symbol) @parameter))
+  "lambda" @keyword)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; lambda-list keywords
+;;;; lambda-list
+
+(lambda_list 
+  (symbol) @parameter)
+
 (lambda_list
   [
    (optional . "&optional" @keyword.lambda var: (symbol) @parameter)
