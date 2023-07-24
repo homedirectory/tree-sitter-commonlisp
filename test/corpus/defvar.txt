@@ -9,9 +9,9 @@ defvar
 --------------------------------------------------------------------------------
 
 (source
-  (defvar (symbol) (number))
-  (defvar (symbol))
-  (defvar (symbol) (number) (documentation))
+  (defvar name: (symbol) init: (number))
+  (defvar name: (symbol))
+  (defvar name: (symbol) init: (number) (documentation))
   )
 
 ================================================================================
@@ -25,8 +25,8 @@ defparameter
 --------------------------------------------------------------------------------
 
 (source
-  (defparameter (symbol) (number))
-  (defparameter (symbol))
-  (defparameter (symbol) (number) (documentation))
+  (defparameter name: (symbol) init: (number))
+  (defparameter name: (symbol))
+  (defparameter name: (symbol) init: (number) (documentation))
   )
 

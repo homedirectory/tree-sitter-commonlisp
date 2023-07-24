@@ -297,7 +297,7 @@ function make_defvar($, macro_name) {
     macro_name,
     field("name", $.symbol), 
     optional(seq(
-      field("value", $._element),
+      field("init", $._element),
       optional($.documentation))))
 }
 
