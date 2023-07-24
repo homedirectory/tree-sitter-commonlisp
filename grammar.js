@@ -561,3 +561,23 @@ module.exports = grammar({
   }, 
 
 });
+
+
+// =============================================================================
+// Utilities
+// =============================================================================
+
+// returns object but without specified keys
+function without(object, ...keys) {
+  const result = {};
+  for (const [k, v] of Object.entries(object)) {
+    if (!keys.includes(k))
+      result[k] = v;
+  }
+  return result;
+}
+
+// works like choice()
+function obj_choice(object) {
+  return choice(...Object.values(object));
+}
