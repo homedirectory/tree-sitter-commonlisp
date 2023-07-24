@@ -54,11 +54,11 @@
 ;;;; lambda-list keywords
 (lambda_list
   [
-   (optional . "&optional" @keyword.lambda)
-   (rest . "&rest" @keyword.lambda)
-   (key . "&key" @keyword.lambda)
+   (optional . "&optional" @keyword.lambda var: (symbol) @parameter)
+   (rest . "&rest" @keyword.lambda (symbol) @parameter)
+   (key . "&key" @keyword.lambda var: (symbol) @parameter)
    (key (allow_other_keys) @keyword.lambda .)
-   (aux . "&aux" @keyword.lambda)
+   (aux . "&aux" @keyword.lambda var: (symbol) @parameter)
    ]
   )
 
