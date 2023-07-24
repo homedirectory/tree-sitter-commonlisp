@@ -291,14 +291,16 @@ const UNSIGNED_DECIMAL_INTEGER = /[0-9]+/;
 const ASTERISK = "*";
 
 
-// Macro DEFPARAMETER, DEFVAR
-function make_defvar($, macro_name) {
+// Macro DEFPARAMETER, DEFVAR, DEFCONSTANT
+function make_defvar($, macro_name, opt_init = true) {
+  const init_rule = seq(
+    field("init", $._element),
+    optional($.documentation));
+
   return in_parens(
     macro_name,
     field("name", $.symbol), 
-    optional(seq(
-      field("init", $._element),
-      optional($.documentation))))
+    opt_init ? optional(init_rule) : init_rule);
 }
 
 
@@ -470,6 +472,7 @@ module.exports = grammar({
       $.lambda,
       $.defvar,
       $.defparameter,
+      $.defconstant,
       $.let),
 
     // --- defun ---
@@ -545,7 +548,9 @@ module.exports = grammar({
 
     defvar: $ => make_defvar($, "defvar"),
 
-    defparameter: $ => make_defvar($, "defparameter"),
+    defparameter: $ => make_defvar($, "defparameter", false),
+
+    defconstant: $ => make_defvar($, "defconstant", false),
 
     // --- let, let* ---
 

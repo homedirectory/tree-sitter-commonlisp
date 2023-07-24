@@ -19,14 +19,26 @@ defparameter
 ================================================================================
 
 (defparameter x 10)
-(defparameter x)
 (defparameter x 10 "x is 10")
 
 --------------------------------------------------------------------------------
 
 (source
   (defparameter name: (symbol) init: (number))
-  (defparameter name: (symbol))
   (defparameter name: (symbol) init: (number) (documentation))
+  )
+
+================================================================================
+defconstant
+================================================================================
+
+(defconstant x 10)
+(defconstant x 10 "x is 10")
+
+--------------------------------------------------------------------------------
+
+(source
+  (defconstant name: (symbol) init: (number))
+  (defconstant name: (symbol) init: (number) (documentation))
   )
 

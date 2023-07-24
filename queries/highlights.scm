@@ -73,6 +73,10 @@
   "defparameter" @function.macro
   name: (symbol) @variable)
 
+(defconstant
+  "defconstant" @function.macro
+  name: (symbol) @variable)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; let, let*
 
