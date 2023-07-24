@@ -400,7 +400,9 @@ module.exports = grammar({
     dot: $ => DOT,
     
     // 2.4.8.1 Sharpsign Backslash
-    character: $ => token(seq("#\\", /.+/)),
+    character: $ => token(seq(
+      "#\\", 
+      repeat1(obj_choice(without(SYNTAX_TYPES, "whitespace"))))),
 
     // 2.4.8.2 Sharpsign Single-Quote
     function: $ => seq("#'", $._token),

@@ -5,6 +5,7 @@ character
 #\a
 #\1
 #\abc
+#\a bc
 #\(
 
 --------------------------------------------------------------------------------
@@ -13,6 +14,7 @@ character
  (character)
  (character)
  (character)
+ (character) (symbol)
  (character)
 )
 
