@@ -11,10 +11,10 @@ KeYwOrD:start
 --------------------------------------------------------------------------------
 
 (source
-(keyword (pkg_mark) (symbol))
-(keyword (pkg_mark) (symbol))
-(package (symbol) (pkg_mark) (symbol))
-(package (symbol) (pkg_mark) (symbol))
-(package (symbol) (pkg_mark) (symbol))
+(keyword (symbol))
+(keyword (symbol))
+(package pkg: (symbol) sym: (symbol))
+(package pkg: (symbol) sym: (symbol))
+(package pkg: (symbol) sym: (symbol))
 )
 

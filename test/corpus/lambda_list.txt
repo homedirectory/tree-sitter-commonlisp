@@ -110,7 +110,7 @@ lambda_list - &key with keyword-name
 
 (source
   (defun name: (symbol) 
-    (lambda_list (key kwd_name: (keyword (pkg_mark) (symbol)) 
+    (lambda_list (key kwd_name: (keyword (symbol)) 
                       var: (symbol))))
 
   (defun name: (symbol) 
@@ -118,7 +118,7 @@ lambda_list - &key with keyword-name
                       var: (symbol))))
 
   (defun name: (symbol) 
-    (lambda_list (key kwd_name: (package pkg: (symbol) (pkg_mark) sym: (symbol)) 
+    (lambda_list (key kwd_name: (package pkg: (symbol) sym: (symbol)) 
                       var: (symbol))))
   )
 
@@ -136,7 +136,7 @@ lambda_list - &key with supplied-p-parameter
     (lambda_list (key var: (symbol) init: (number) p: (symbol))))
 
   (defun name: (symbol) 
-    (lambda_list (key kwd_name: (keyword (pkg_mark) (symbol)) 
+    (lambda_list (key kwd_name: (keyword (symbol)) 
                       var: (symbol)
                       init: (number)
                       p: (symbol))))

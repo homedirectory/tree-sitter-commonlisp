@@ -358,14 +358,12 @@ module.exports = grammar({
     package: $ => prec(PREC.package,
       seq(
         field("pkg", $.symbol),
-        $.pkg_mark,
+        token.immediate(PACKAGE_MARKER),
         field("sym", $.symbol))),
-
-    pkg_mark: $ => PACKAGE_MARKER,
 
     // keyword:foo will parse as $.package even if optional("keyword") was prepended but that's fine
     keyword: $ => prec(PREC.keyword, 
-      seq($.pkg_mark, $.symbol)),
+      seq(PACKAGE_MARKER, $.symbol)),
 
     // TODO consider replacing symbol as token by symbol as a compound rule, for example:
     // foo     => (symbol (sym))

@@ -30,8 +30,6 @@
 ;; TODO reduce scope of matched expressions
 (list . (symbol) @function)
 
-(keyword) @keyword.lisp
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; defun
 
@@ -118,7 +116,9 @@
 
 (dot) @character.special
 
-(pkg_mark) @character.special
+(package . _ . ":" @character.special)
+
+(keyword . ":" @character.special)
 
 (quote . "'" @character.special)
 
