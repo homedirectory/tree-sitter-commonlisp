@@ -112,8 +112,7 @@
 
 (complex . ["#c" "#C"] @character.special)
 
-;; TODO match #[pP] somehow (_ with #match? doesn't work)
-; (pathname . "#p" @character.special)
+(pathname . ["#p" "#P"] @character.special)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; special characters
