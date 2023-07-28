@@ -4,9 +4,12 @@ character
 
 #\a
 #\1
-#\abc
+#\a
 #\a bc
 #\(
+#\Newline
+#\N
+#\Space
 
 --------------------------------------------------------------------------------
 
@@ -15,6 +18,9 @@ character
  (character)
  (character)
  (character) (symbol)
+ (character)
+ (character)
+ (character)
  (character)
 )
 

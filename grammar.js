@@ -290,6 +290,20 @@ const UNSIGNED_DECIMAL_INTEGER = /[0-9]+/;
 // 2.4.8.4 Sharpsign Asterisk (bit vector)
 const ASTERISK = "*";
 
+// 2.4.8.1 Sharpsign Backslash (character)
+const CHARACTER_NAMES = [
+  "Newline",
+  "Space",
+  "Rubout",
+  "Page",
+  "Tab",
+  "Backspace",
+  "Return",
+  "Linefeed",
+];
+
+const CHARACTER_NAME = choice(...CHARACTER_NAMES);
+
 
 // Macro DEFPARAMETER, DEFVAR, DEFCONSTANT
 function make_defvar($, macro_name, opt_init = true) {
@@ -404,8 +418,11 @@ module.exports = grammar({
     
     // 2.4.8.1 Sharpsign Backslash
     character: $ => token(seq(
-      "#\\", 
-      repeat1(obj_choice(without(SYNTAX_TYPES, "whitespace"))))),
+      "#\\",
+      token.immediate(
+        choice(
+          obj_choice(without(SYNTAX_TYPES, "whitespace")), 
+          CHARACTER_NAME)))),
 
     // 2.4.8.2 Sharpsign Single-Quote
     function: $ => seq("#'", $._token),
