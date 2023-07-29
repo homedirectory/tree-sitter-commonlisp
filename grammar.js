@@ -425,7 +425,7 @@ module.exports = grammar({
           CHARACTER_NAME)))),
 
     // 2.4.8.2 Sharpsign Single-Quote
-    function: $ => seq("#'", $._token),
+    function: $ => seq("#'", $._element),
 
     // 2.4.8.3 Sharpsign Left-Parenthesis
     vector: $ => seq(

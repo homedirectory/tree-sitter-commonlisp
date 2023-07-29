@@ -35,6 +35,8 @@ pkg:sym
 
 ((lambda (x y) (+ x y)) 1 2)
 
+#'(lambda (x y) (+ x y))
+
 (let ((x 5) (y 3)) (+ x y))
 (let* ((x 5) (y 3)) (+ x y))
 
