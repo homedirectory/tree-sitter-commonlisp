@@ -5,12 +5,14 @@
     `(list ,(generate-list query (1- depth)))))
 
 (defun generate-quoted (query depth &key (quote 'quote))
-  (list '|##| quote (generate-list query depth)))
+  (if (= 0 depth)
+    (cons '|##| (cons quote query))
+    (list '|##| quote (generate-list query depth))))
 
 (defun generate-quoted-symbols (&optional (max-depth 10))
   (apply #'append
          (mapcar
-           (lambda (q) (do ((i 1 (1+ i))
+           (lambda (q) (do ((i 0 (1+ i))
                             (result nil))
                          ((= i max-depth) (nreverse result))
                          (push (generate-quoted '((symbol) @variable) i :quote q) result)))
