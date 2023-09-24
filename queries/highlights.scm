@@ -21,14 +21,14 @@
 
 (nil) @constant.builtin
 
-(symbol) @variable
+[(pkg_symbol) (symbol)] @variable
 
 [(comment) (block_comment)] @comment
 
 (character) @character
 
 ;; TODO reduce scope of matched expressions
-(list . (symbol) @function)
+(list . [(pkg_symbol) (symbol)] @function)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; defun
@@ -119,9 +119,9 @@
 
 (dot) @character.special
 
-(package . _ . ":" @character.special)
+; (package . _ . ":" @character.special)
 
-(keyword . ":" @character.special)
+; (keyword . ":" @character.special)
 
 (quote . "'" @character.special)
 
