@@ -9,8 +9,8 @@ foo:bar
 --------------------------------------------------------------------------------
 
 (source
- (package pkg: (symbol) sym: (symbol))
- (package pkg: (symbol) sym: (symbol))
- (package pkg: (symbol) sym: (symbol))
+ (pkg_symbol)
+ (pkg_symbol)
+ (pkg_symbol)
 )
 

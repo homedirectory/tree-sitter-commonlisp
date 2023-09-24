@@ -54,7 +54,7 @@ const SYNTAX_TYPES = {
 
 };
 
-const PACKAGE_MARKER = ':';
+const PACKAGE_MARKER = /::?/;
 
 // returns a rule that matches an escaped character given by the argument
 function escape_single(c) {
@@ -336,7 +336,7 @@ module.exports = grammar({
 
     _token: $ => choice(
       $.number, 
-      $.package,
+      $.pkg_symbol,
       $.keyword,
       $.symbol, 
       $.list,
@@ -371,18 +371,19 @@ module.exports = grammar({
 
     number: $ => prec(PREC.number, token(NUMBER)),
 
-    package: $ => prec(PREC.package,
-      seq(
-        field("pkg", $.symbol),
+    // FIXME conflict between (pkg_symbol) and [(symbol) (keyword)]
+
+    pkg_symbol: $ => prec(PREC.package,
+      token(seq(
+        field("pkg", SYMBOL),
         token.immediate(PACKAGE_MARKER),
         // need alias() because can't use token.immediate() with a token() rule
-        field("sym", alias(token.immediate(SYMBOL), $.symbol)))),
+        // field("sym", alias(token.immediate(SYMBOL), $.symbol))))),
+        field("sym", token.immediate(SYMBOL))))),
 
-    // keyword:foo will parse as $.package even if optional("keyword") was prepended but that's fine
+    // keyword:foo will parse as $.pkg_symbol even if optional("keyword") was prepended but that's fine
     keyword: $ => prec(PREC.keyword, 
-      seq(
-        PACKAGE_MARKER, 
-        alias(token.immediate(SYMBOL), $.symbol))),
+      token(seq(":", token.immediate(SYMBOL)))),
 
     // TODO consider replacing symbol as token by symbol as a compound rule, for example:
     // foo     => (symbol (sym))
@@ -390,7 +391,7 @@ module.exports = grammar({
     // bar:foo => (symbol (package) (sym))
     symbol: $ => prec(PREC.symbol, token(SYMBOL)),
 
-    _any_symbol: $ => choice($.package, $.keyword, $.symbol),
+    _any_symbol: $ => choice($.pkg_symbol, $.keyword, $.symbol),
 
     list: $ => $._list,
 
