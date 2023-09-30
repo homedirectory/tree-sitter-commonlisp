@@ -37,6 +37,10 @@
   "defun" @function.macro
   name: (symbol) @function)
 
+(defmacro 
+  "defmacro" @function.macro
+  name: (symbol) @function)
+
 (declare
   "declare" @keyword)
 

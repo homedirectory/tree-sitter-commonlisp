@@ -487,22 +487,29 @@ module.exports = grammar({
 
     _form: $ => choice(
       $.defun,
+      $.defmacro,
       $.lambda,
       $.defvar,
       $.defparameter,
       $.defconstant,
       $.let),
 
-    // --- defun ---
-
     defun: $ => in_parens(
       "defun", field("name", $.symbol), $.lambda_list,
+      repeat($.declare), 
+      optional(choice($._doc_body, $._body))),
+
+    defmacro: $ => in_parens(
+      // TODO macro lambda list
+      "defmacro", field("name", $.symbol), $.lambda_list,
       repeat($.declare), 
       optional(choice($._doc_body, $._body))),
 
     _doc_body: $ => seq($.documentation, repeat1($._element)),
 
     _body: $ => repeat1($._element),
+
+    // --- lambda list ---
 
     lambda_list: $ => in_parens(
       repeat($.symbol), repeat($._lambda_keyword)),
