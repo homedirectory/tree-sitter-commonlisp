@@ -35,7 +35,7 @@
 
 (defun 
   "defun" @function.macro
-  name: (symbol) @function)
+  (fn_name (symbol) @function))
 
 (defmacro 
   "defmacro" @function.macro

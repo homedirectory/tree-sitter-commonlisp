@@ -7,7 +7,7 @@ lambda_list - &rest
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (rest (symbol))))
   )
 
@@ -22,13 +22,13 @@ lambda_list - &optional single var
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (optional var: (symbol))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (optional var: (symbol) init: (number))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (optional var: (symbol) init: (number) p: (symbol))))
   )
 
@@ -43,14 +43,14 @@ lambda_list - &optional multiple vars
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (optional var: (symbol) var: (symbol))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (optional var: (symbol)
                            var: (symbol) init: (number))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (optional var: (symbol)
                            var: (symbol) init: (number)
                            var: (symbol))))
@@ -65,7 +65,7 @@ lambda_list - &rest and &optional
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (rest (symbol))
                  (optional var: (symbol))))
   )
@@ -82,17 +82,17 @@ lambda_list - &key simple
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key var: (symbol) var: (symbol))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key var: (symbol) var: (symbol))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key var: (symbol) init: (number)
                       var: (symbol) init: (number))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key var: (symbol) init: (number)
                       var: (symbol) init: (number)
                       (allow_other_keys))))
@@ -109,15 +109,15 @@ lambda_list - &key with keyword-name
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key kwd_name: (keyword) 
                       var: (symbol))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key kwd_name: (symbol) 
                       var: (symbol))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key kwd_name: (pkg_symbol) 
                       var: (symbol))))
   )
@@ -132,10 +132,10 @@ lambda_list - &key with supplied-p-parameter
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key var: (symbol) init: (number) p: (symbol))))
 
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (key kwd_name: (keyword) 
                       var: (symbol)
                       init: (number)
@@ -151,7 +151,7 @@ lambda_list - &aux
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) 
+  (defun (fn_name (symbol)) 
     (lambda_list (aux var: (symbol) var: (symbol) init: (number))))
   )
 

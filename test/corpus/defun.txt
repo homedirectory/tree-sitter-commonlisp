@@ -11,7 +11,7 @@ defun full
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) (lambda_list (symbol) (symbol))
+  (defun (fn_name (symbol)) (lambda_list (symbol) (symbol))
     (declare (list (symbol) (symbol)) (list (symbol) (symbol)))
     (declare (list (symbol) (symbol)))
     (documentation)
@@ -29,7 +29,7 @@ defun - single string in body
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) (lambda_list)
+  (defun (fn_name (symbol)) (lambda_list)
     (string))
   )
 
@@ -42,7 +42,7 @@ defun - empty body
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) (lambda_list))
+  (defun (fn_name (symbol)) (lambda_list))
   )
 
 ================================================================================
@@ -54,7 +54,7 @@ defun - body starts with non-string
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) (lambda_list) 
+  (defun (fn_name (symbol)) (lambda_list) 
     (number)
     (number))
   )
@@ -71,8 +71,21 @@ defun - documented with body
 --------------------------------------------------------------------------------
 
 (source
-  (defun name: (symbol) (lambda_list) 
+  (defun (fn_name (symbol)) (lambda_list) 
     (documentation)
     (list (symbol))
     (quote (symbol)))
   )
+
+================================================================================
+defun - (setf fn)
+================================================================================
+
+(defun (setf f) (v x) 
+  v)
+
+--------------------------------------------------------------------------------
+
+(source
+  (defun (fn_name (symbol)) (lambda_list (symbol) (symbol)) 
+    (symbol)))

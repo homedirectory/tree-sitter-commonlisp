@@ -495,7 +495,7 @@ module.exports = grammar({
       $.let),
 
     defun: $ => in_parens(
-      "defun", field("name", $.symbol), $.lambda_list,
+      "defun", $.fn_name, $.lambda_list,
       repeat($.declare), 
       optional(choice($._doc_body, $._body))),
 
@@ -504,6 +504,8 @@ module.exports = grammar({
       "defmacro", field("name", $.symbol), $.lambda_list,
       repeat($.declare), 
       optional(choice($._doc_body, $._body))),
+
+    fn_name: $ => choice($.symbol, in_parens("setf", $.symbol)),
 
     _doc_body: $ => seq($.documentation, repeat1($._element)),
 
