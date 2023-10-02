@@ -5,10 +5,11 @@
   nil #| 123 #| 321 |# |#
   (print "hello world"))
 
-(defun fun (a &rest args &optional (x 1) &key (k1 3)))
+(defun fun (a b &rest args &optional (x 1) &key (k1 3) &aux (w 1)))
 (defun fun (a &optional (x 1) &rest args &key (k1 3)))
 (defun fun (a &optional (x 1) &rest args &key (k1 3) &allow-other-keys))
 (defun fun (a &aux x (b 3)))
+(defun (setf fun) (v x) v)
 
 (funcall #'+ 1 2)
 
@@ -25,6 +26,7 @@
 (setf arr1 #1A(1 2 3))
 
 '(1 . 2)
+'(a b c)
 
 `(1 ,2 ,@(3 4) ,.(3 4))
 
@@ -32,6 +34,8 @@
 
 pkg:sym
 :keyword
+
+(pkg:fun 1 2 (:key 1))
 
 ((lambda (x y) (+ x y)) 1 2)
 
@@ -41,7 +45,10 @@ pkg:sym
 (let* ((x 5) (y 3)) (+ x y))
 
 (defvar x 10 "hello")
+(defvar none)
 (defparameter *x* 100 "world")
+
+(let () 3)
 
 (setf ** 'huh)
 
@@ -49,3 +56,5 @@ pkg:sym
 
 ;; struct
 #s(man joe 32)
+
+(+ #C(2 1) #c(1 2)) ; complex
