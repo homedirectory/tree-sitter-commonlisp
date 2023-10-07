@@ -42,6 +42,13 @@
   "defmacro" @function.macro
   name: (symbol) @function)
 
+(defmethod 
+  "defmethod" @function.macro
+  [(fn_name (symbol) @function)
+   (fn_name "setf" @function.builtin (symbol) @function)])
+
+(method_qual) @lisp.keyword
+
 (declare
   "declare" @keyword)
 

@@ -1,0 +1,45 @@
+================================================================================
+defmethod - simple
+================================================================================
+
+(defmethod f (x y)
+  (list x y))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defmethod (fn_name (symbol)) (lambda_list (symbol) (symbol))
+    (list (symbol) (symbol) (symbol)))
+  )
+
+================================================================================
+defmethod - parameter specializers
+================================================================================
+
+(defmethod f ((x integer) (y (eql 1)))
+  (list x y))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defmethod (fn_name (symbol)) (lambda_list (symbol) (param_spec (symbol))
+                                             (symbol) (param_spec (eql_spec (number))))
+    (list (symbol) (symbol) (symbol))))
+
+================================================================================
+defmethod - method qualifiers
+================================================================================
+
+(defmethod f :before ()
+  1)
+
+(defmethod f :before :after :around ()
+  1)
+
+--------------------------------------------------------------------------------
+
+(source
+  (defmethod (fn_name (symbol)) (method_qual) (lambda_list) 
+    (number))
+  (defmethod (fn_name (symbol)) (method_qual) (method_qual) (method_qual) (lambda_list) 
+    (number)))

@@ -488,6 +488,7 @@ module.exports = grammar({
     _form: $ => choice(
       $.defun,
       $.defmacro,
+      $.defmethod,
       $.lambda,
       $.defvar,
       $.defparameter,
@@ -605,6 +606,33 @@ module.exports = grammar({
     let_bind: $ => choice(
       field("var", $.symbol),
       in_parens(field("var", $.symbol), optional(field("init", $._element)))),
+
+    // --- defmethod ---
+
+    // (defmethod function-name {method-qualifier}* specialized-lambda-list [[declaration* | documentation]] form*)
+    defmethod: $ => in_parens(
+      // is aliasing specialized_lambda_list a good choice?
+      "defmethod", $.fn_name, repeat($.method_qual), alias($.specialized_lambda_list, $.lambda_list),
+      repeat($.declare),
+      optional(choice($._doc_body, $._body))),
+
+    method_qual: $ => choice(":before", ":around", ":after"),
+
+    // ({var | (var parameter-specializer-name)}* 
+    // [&optional {var | (var [initform [supplied-p-parameter] ])}*] 
+    // [&rest var] 
+    // [&key {var | ({var | (keywordvar)} [initform [supplied-p-parameter] ])}*
+    //   [&allow-other-keys] ] 
+    // [&aux {var | (var [initform] )}*] ) 
+    specialized_lambda_list: $ => in_parens(
+      // {var | (var parameter-specializer-name)}*
+      repeat(choice($.symbol, in_parens($.symbol, $.param_spec))),
+      repeat(choice($.optvar, $.restvar, $.keyvar, $.auxvar))),
+
+    // parameter-specializer-name ::= symbol | (eql eql-specializer-form)
+    param_spec: $ => choice($.symbol, $.eql_spec),
+
+    eql_spec: $ => in_parens("eql", $._element),
 
   }, 
 

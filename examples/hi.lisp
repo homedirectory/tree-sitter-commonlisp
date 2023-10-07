@@ -15,6 +15,9 @@
   "doc"
   123)
 
+(defmethod add-em :around ((x integer) (y (eql 1)))
+  (1+ x))
+
 (funcall #'+ 1 2)
 
 (setf vec #(1 2 3))
