@@ -517,10 +517,10 @@ module.exports = grammar({
       repeat($.symbol), 
       repeat(choice($.rest, $.optional, $.key, $.aux))),
 
-    // &rest
-    rest: $ => seq("&rest", $.symbol),
+    // &rest var
+    rest: $ => seq("&rest", field("var", $.symbol)),
 
-    // &optional
+    // &optional var
     optional: $ => seq(
       "&optional",
       repeat(choice(

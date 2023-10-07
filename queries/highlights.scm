@@ -60,7 +60,7 @@
 (lambda_list
   [
    (optional . "&optional"     @keyword.lambda var: (symbol) @parameter)
-   (rest     . "&rest"         @keyword.lambda      (symbol) @parameter) 
+   (rest     . "&rest"         @keyword.lambda var: (symbol) @parameter) 
    (key      . "&key"          @keyword.lambda var: (symbol) @parameter)
    (aux      . "&aux"          @keyword.lambda var: (symbol) @parameter)
    (envvar   . "&environment"  @keyword.lambda var: (symbol) @parameter)
