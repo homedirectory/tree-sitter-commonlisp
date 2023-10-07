@@ -500,8 +500,8 @@ module.exports = grammar({
       optional(choice($._doc_body, $._body))),
 
     defmacro: $ => in_parens(
-      // TODO macro lambda list
-      "defmacro", field("name", $.symbol), $.lambda_list,
+      // is aliasing macro_lambda_list a good choice?
+      "defmacro", field("name", $.symbol), alias($.macro_lambda_list, $.lambda_list),
       repeat($.declare), 
       optional(choice($._doc_body, $._body))),
 
@@ -514,10 +514,9 @@ module.exports = grammar({
     // --- lambda list ---
 
     lambda_list: $ => in_parens(
-      repeat($.symbol), repeat($._lambda_keyword)),
+      repeat($.symbol), 
+      repeat(choice($.rest, $.optional, $.key, $.aux))),
 
-    _lambda_keyword: $ => choice($.rest, $.optional, $.key, $.aux),
-    
     // &rest
     rest: $ => seq("&rest", $.symbol),
 
@@ -559,6 +558,20 @@ module.exports = grammar({
       repeat(choice(
         field("var", $.symbol), 
         in_parens(field("var", $.symbol), optional(field("init", $._element)))))),
+
+    // 3.4.4 Macro Lambda Lists
+    macro_lambda_list: $ => in_parens(
+      repeat($.symbol), 
+      repeat(choice($.rest, $.optional, $.key, $.aux, $.bodyvar, $.envvar, $.wholevar))),
+
+    // &body var
+    bodyvar: $ => seq("&body", field("var", $.symbol)),
+    
+    // &whole var
+    wholevar: $ => seq("&whole", field("var", $.symbol)),
+
+    // &environment var
+    envvar: $ => seq("&environment", field("var", $.symbol)),
 
     declare: $ => in_parens("declare", repeat($._token)),
 

@@ -11,6 +11,10 @@
 (defun fun (a &aux x (b 3)))
 (defun (setf fun) (v x) v)
 
+(defmacro generate-stuff (a &whole b &body body &environment env)
+  "doc"
+  123)
+
 (funcall #'+ 1 2)
 
 (setf vec #(1 2 3))

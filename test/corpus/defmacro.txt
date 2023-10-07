@@ -76,3 +76,18 @@ defmacro - documented with body
     (list (symbol))
     (quote (symbol)))
   )
+
+================================================================================
+defmacro - macro lambda list
+================================================================================
+
+(defmacro doit (&whole x &environment env &body body) 
+  'done)
+
+--------------------------------------------------------------------------------
+
+(source
+  (defmacro name: (symbol)
+  (lambda_list (wholevar var: (symbol)) (envvar var: (symbol)) (bodyvar var: (symbol)))
+    (quote (symbol)))
+  )

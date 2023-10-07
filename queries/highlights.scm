@@ -59,11 +59,14 @@
 
 (lambda_list
   [
-   (optional . "&optional" @keyword.lambda var: (symbol) @parameter)
-   (rest . "&rest" @keyword.lambda (symbol) @parameter)
-   (key . "&key" @keyword.lambda var: (symbol) @parameter)
+   (optional . "&optional"     @keyword.lambda var: (symbol) @parameter)
+   (rest     . "&rest"         @keyword.lambda      (symbol) @parameter) 
+   (key      . "&key"          @keyword.lambda var: (symbol) @parameter)
+   (aux      . "&aux"          @keyword.lambda var: (symbol) @parameter)
+   (envvar   . "&environment"  @keyword.lambda var: (symbol) @parameter)
+   (wholevar . "&whole"        @keyword.lambda var: (symbol) @parameter)
+   (bodyvar  . "&body"         @keyword.lambda var: (symbol) @parameter)
    (key (allow_other_keys) @keyword.lambda .)
-   (aux . "&aux" @keyword.lambda var: (symbol) @parameter)
    ]
   )
 
