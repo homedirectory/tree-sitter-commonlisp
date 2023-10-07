@@ -35,7 +35,8 @@
 
 (defun 
   "defun" @function.macro
-  (fn_name (symbol) @function))
+  [(fn_name (symbol) @function)
+   (fn_name "setf" @function.builtin (symbol) @function)])
 
 (defmacro 
   "defmacro" @function.macro
