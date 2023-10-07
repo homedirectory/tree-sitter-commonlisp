@@ -23,6 +23,8 @@
 
 [(pkg_symbol) (symbol)] @variable
 
+(keyword) @lisp.keyword
+
 [(comment) (block_comment)] @comment
 
 (character) @character
