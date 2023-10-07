@@ -515,13 +515,13 @@ module.exports = grammar({
 
     lambda_list: $ => in_parens(
       repeat($.symbol), 
-      repeat(choice($.rest, $.optional, $.key, $.aux))),
+      repeat(choice($.restvar, $.optvar, $.keyvar, $.auxvar))),
 
     // &rest var
-    rest: $ => seq("&rest", field("var", $.symbol)),
+    restvar: $ => seq("&rest", field("var", $.symbol)),
 
     // &optional var
-    optional: $ => seq(
+    optvar: $ => seq(
       "&optional",
       repeat(choice(
         field("var", $.symbol),
@@ -536,7 +536,7 @@ module.exports = grammar({
     //     ({var | (keyword-name var)} 
     //      [init-form [supplied-p-parameter]])}* 
     //    [&allow-other-keys]
-    key: $ => seq(
+    keyvar: $ => seq(
       "&key",
       repeat(choice(
         field("var", $.symbol),
@@ -553,7 +553,7 @@ module.exports = grammar({
     allow_other_keys: _ => "&allow-other-keys",
 
     // &aux {var | (var [init-form])}*
-    aux: $ => seq(
+    auxvar: $ => seq(
       "&aux",
       repeat(choice(
         field("var", $.symbol), 
@@ -562,7 +562,7 @@ module.exports = grammar({
     // 3.4.4 Macro Lambda Lists
     macro_lambda_list: $ => in_parens(
       repeat($.symbol), 
-      repeat(choice($.rest, $.optional, $.key, $.aux, $.bodyvar, $.envvar, $.wholevar))),
+      repeat(choice($.restvar, $.optvar, $.keyvar, $.auxvar, $.bodyvar, $.envvar, $.wholevar))),
 
     // &body var
     bodyvar: $ => seq("&body", field("var", $.symbol)),

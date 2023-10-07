@@ -8,7 +8,7 @@ lambda_list - &rest
 
 (source
   (defun (fn_name (symbol)) 
-    (lambda_list (rest var: (symbol))))
+    (lambda_list (restvar var: (symbol))))
   )
 
 ================================================================================
@@ -23,13 +23,13 @@ lambda_list - &optional single var
 
 (source
   (defun (fn_name (symbol)) 
-    (lambda_list (optional var: (symbol))))
+    (lambda_list (optvar var: (symbol))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (optional var: (symbol) init: (number))))
+    (lambda_list (optvar var: (symbol) init: (number))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (optional var: (symbol) init: (number) p: (symbol))))
+    (lambda_list (optvar var: (symbol) init: (number) p: (symbol))))
   )
 
 ================================================================================
@@ -44,14 +44,14 @@ lambda_list - &optional multiple vars
 
 (source
   (defun (fn_name (symbol)) 
-    (lambda_list (optional var: (symbol) var: (symbol))))
+    (lambda_list (optvar var: (symbol) var: (symbol))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (optional var: (symbol)
+    (lambda_list (optvar var: (symbol)
                            var: (symbol) init: (number))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (optional var: (symbol)
+    (lambda_list (optvar var: (symbol)
                            var: (symbol) init: (number)
                            var: (symbol))))
   )
@@ -66,8 +66,8 @@ lambda_list - &rest and &optional
 
 (source
   (defun (fn_name (symbol)) 
-    (lambda_list (rest var: (symbol))
-                 (optional var: (symbol))))
+    (lambda_list (restvar var: (symbol))
+                 (optvar var: (symbol))))
   )
 
 ================================================================================
@@ -83,17 +83,17 @@ lambda_list - &key simple
 
 (source
   (defun (fn_name (symbol)) 
-    (lambda_list (key var: (symbol) var: (symbol))))
+    (lambda_list (keyvar var: (symbol) var: (symbol))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (key var: (symbol) var: (symbol))))
+    (lambda_list (keyvar var: (symbol) var: (symbol))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (key var: (symbol) init: (number)
+    (lambda_list (keyvar var: (symbol) init: (number)
                       var: (symbol) init: (number))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (key var: (symbol) init: (number)
+    (lambda_list (keyvar var: (symbol) init: (number)
                       var: (symbol) init: (number)
                       (allow_other_keys))))
   )
@@ -110,15 +110,15 @@ lambda_list - &key with keyword-name
 
 (source
   (defun (fn_name (symbol)) 
-    (lambda_list (key kwd_name: (keyword) 
+    (lambda_list (keyvar kwd_name: (keyword) 
                       var: (symbol))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (key kwd_name: (symbol) 
+    (lambda_list (keyvar kwd_name: (symbol) 
                       var: (symbol))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (key kwd_name: (pkg_symbol) 
+    (lambda_list (keyvar kwd_name: (pkg_symbol) 
                       var: (symbol))))
   )
 
@@ -133,10 +133,10 @@ lambda_list - &key with supplied-p-parameter
 
 (source
   (defun (fn_name (symbol)) 
-    (lambda_list (key var: (symbol) init: (number) p: (symbol))))
+    (lambda_list (keyvar var: (symbol) init: (number) p: (symbol))))
 
   (defun (fn_name (symbol)) 
-    (lambda_list (key kwd_name: (keyword) 
+    (lambda_list (keyvar kwd_name: (keyword) 
                       var: (symbol)
                       init: (number)
                       p: (symbol))))
@@ -152,7 +152,7 @@ lambda_list - &aux
 
 (source
   (defun (fn_name (symbol)) 
-    (lambda_list (aux var: (symbol) var: (symbol) init: (number))))
+    (lambda_list (auxvar var: (symbol) var: (symbol) init: (number))))
   )
 
 ================================================================================
@@ -166,8 +166,8 @@ lambda_list - all keywords together
 (source
   (lambda
     (lambda_list (symbol)
-                 (optional var: (symbol) init: (number))
-                 (rest var: (symbol))
-                 (key var: (symbol) var: (symbol) init: (symbol) (allow_other_keys))))
+                 (optvar var: (symbol) init: (number))
+                 (restvar var: (symbol))
+                 (keyvar var: (symbol) var: (symbol) init: (symbol) (allow_other_keys))))
   )
 
