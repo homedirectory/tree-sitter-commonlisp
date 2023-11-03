@@ -65,3 +65,5 @@ pkg:sym
 #s(man joe 32)
 
 (+ #C(2 1) #c(1 2)) ; complex
+
+(destructuring-bind (x (y &rest ys)) '(1 (2)) (+ x y))

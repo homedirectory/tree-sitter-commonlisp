@@ -1,0 +1,28 @@
+================================================================================
+destr_bind - simple case
+================================================================================
+
+(destructuring-bind (x y) (list 1 2) (+ x y))
+
+--------------------------------------------------------------------------------
+
+(source
+  (destr_bind (lambda_list (symbol) (symbol))
+              (list (symbol) (number) (number))
+              (list (symbol) (symbol) (symbol)))
+  )
+
+================================================================================
+destr_bind - nested lambda lists
+================================================================================
+
+(destructuring-bind ((x &rest xs)) (list (list 1)) x)
+
+--------------------------------------------------------------------------------
+
+(source
+  (destr_bind (lambda_list (lambda_list (symbol) (restvar var: (symbol))))
+              (list (symbol) (list (symbol) (number)))
+              (symbol))
+  )
+

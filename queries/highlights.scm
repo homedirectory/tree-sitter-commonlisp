@@ -95,13 +95,15 @@
   name: (symbol) @variable)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; let, let*
+;;;; Data and Control Flow
 
 (let
   ["let" "let*"] @keyword)
 
 (let_binds 
   (let_bind var: (symbol) @variable))
+
+(destr_bind "destructuring-bind" @function.macro)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Sharpsign

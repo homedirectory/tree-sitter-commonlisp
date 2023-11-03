@@ -493,7 +493,8 @@ module.exports = grammar({
       $.defvar,
       $.defparameter,
       $.defconstant,
-      $.let),
+      $.let,
+      $.destr_bind),
 
     defun: $ => in_parens(
       "defun", $.fn_name, $.lambda_list,
@@ -633,6 +634,17 @@ module.exports = grammar({
     param_spec: $ => choice($.symbol, $.eql_spec),
 
     eql_spec: $ => in_parens("eql", $._element),
+
+    // --- destructuring-bind ---
+    destr_bind: $ => in_parens(
+      "destructuring-bind", 
+      alias($.destr_lambda_list, $.lambda_list), 
+      repeat($.declare),
+      repeat($._element)),
+
+    destr_lambda_list: $ => in_parens(
+      repeat(choice($.symbol, alias($.destr_lambda_list, $.lambda_list))),
+      repeat(choice($.restvar, $.optvar, $.keyvar, $.auxvar, $.bodyvar, $.wholevar))),
 
   }, 
 
