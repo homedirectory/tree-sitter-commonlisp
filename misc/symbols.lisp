@@ -1,37 +1,31 @@
-;;
-;; use this program to generate a sequence of fbound symbols' names in a given package
-;; $ clisp symbols.lisp common-lisp
-
-(defun list-symbols (pkg)
-  (let ((lst '()))
-    (do-symbols (sym pkg)
-      (push sym lst))
-    lst))
-
-; (defun list-external-symbols (pkg)
-;   (let ((lst '()))
-;     (do-external-symbols (sym pkg)
-;       (push sym lst))
-;     lst))
-
-(defun list-fbound-symbols (pkg)
-  (delete-if-not #'fboundp (list-symbols pkg)))
+;; use this program to generate symbol names in a given package in the format suitable
+;; for the Tree Sitter query language
+;; Usage:
+;; clisp symbols.lisp PACKAGE [KIND]
+;; KIND ::= function | macro
+;; if KIND is not given then both functions and macros are considered
 
 ;; determines whether a symbol is list-named
 ;; for example, there is common-lisp::|(setf common-lisp:stream-element-type)|
-(defun list-named-symbolp (sym)
+(defun list-named-symbol-p (sym)
   (listp (read-from-string (symbol-name sym))))
 
-(defun print-fbound-symbols-as-strings (pkg)
-  (mapc (lambda (sym) 
-          (prin1 (string-downcase (symbol-name sym)))
-          (format t " "))
-        (delete-if #'list-named-symbolp (list-fbound-symbols pkg)))
-  nil)
+(defconstant symbol-kinds '("FUNCTION" "MACRO"))
 
 (defun run ()
- (let ((pkg (car *args*)))
-  (when pkg
-    (print-fbound-symbols-as-strings (find-package (read-from-string pkg))))))
+  (let ((pkg-name (car *args*))
+        (symbol-kind (second *args*)))
+    (when (and symbol-kind (not (find (string-upcase symbol-kind) symbol-kinds :test #'string=)))
+      (error "SYMBOL-KIND must be one of ~a but was ~a" symbol-kinds symbol-kind))
+    (when pkg-name
+      (let ((package (find-package (read-from-string pkg-name)))
+            (sym-pred (cond ((string= (string-downcase symbol-kind) "function")
+                             (lambda (sym) (and (fboundp sym) (not (macro-function sym)))))
+                            ((string= (string-downcase symbol-kind) "macro") 
+                             #'macro-function)
+                            (t (lambda (sym) t)))))
+        (do-symbols (sym package)
+          (when (and (not (list-named-symbol-p sym)) (funcall sym-pred sym))
+            (format t "~s " (string-downcase (symbol-name sym)))))))))
 
 (run)
