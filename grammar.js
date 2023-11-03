@@ -313,7 +313,7 @@ function make_defvar($, macro_name, opt_init = true) {
 
   return in_parens(
     macro_name,
-    field("name", $.symbol), 
+    field("name", $._any_symbol), 
     opt_init ? optional(init_rule) : init_rule);
 }
 
@@ -504,11 +504,11 @@ module.exports = grammar({
 
     defmacro: $ => in_parens(
       // is aliasing macro_lambda_list a good choice?
-      "defmacro", field("name", $.symbol), alias($.macro_lambda_list, $.lambda_list),
+      "defmacro", field("name", $._any_symbol), alias($.macro_lambda_list, $.lambda_list),
       repeat($.declare), 
       optional(choice($._doc_body, $._body))),
 
-    fn_name: $ => choice($.symbol, in_parens("setf", $.symbol)),
+    fn_name: $ => choice($._any_symbol, in_parens("setf", $._any_symbol)),
 
     _doc_body: $ => seq($.documentation, repeat1($._element)),
 
@@ -606,8 +606,8 @@ module.exports = grammar({
     let_binds: $ => in_parens(repeat($.let_bind)),
 
     let_bind: $ => choice(
-      field("var", $.symbol),
-      in_parens(field("var", $.symbol), optional(field("init", $._element)))),
+      field("var", $._any_symbol),
+      in_parens(field("var", $._any_symbol), optional(field("init", $._element)))),
 
     // --- defmethod ---
 
@@ -628,11 +628,11 @@ module.exports = grammar({
     // [&aux {var | (var [initform] )}*] ) 
     specialized_lambda_list: $ => in_parens(
       // {var | (var parameter-specializer-name)}*
-      repeat(choice($.symbol, in_parens($.symbol, $.param_spec))),
+      repeat(choice($._any_symbol, in_parens($._any_symbol, $.param_spec))),
       repeat(choice($.optvar, $.restvar, $.keyvar, $.auxvar))),
 
     // parameter-specializer-name ::= symbol | (eql eql-specializer-form)
-    param_spec: $ => choice($.symbol, $.eql_spec),
+    param_spec: $ => choice($._any_symbol, $.eql_spec),
 
     eql_spec: $ => in_parens("eql", $._element),
 
@@ -650,12 +650,12 @@ module.exports = grammar({
     // --- defclass ---
     defclass: $ => in_parens(
       "defclass",
-      field("name", $.symbol),
+      field("name", $._any_symbol),
       field("superclasses", $.superclass_list),
       field("slots", $.slot_list),
       repeat($.class_option)),
 
-    superclass_list: $ => in_parens(repeat($.symbol)),
+    superclass_list: $ => in_parens(repeat($._any_symbol)),
 
     slot_list: $ => in_parens(repeat($.slot)),
 
@@ -676,7 +676,7 @@ module.exports = grammar({
     class_option: $ => choice(
       in_parens(":default-initargs", repeat(seq($._any_symbol, $._element))),
       in_parens(":documentation", $.string),
-      in_parens(":metaclass", $.symbol)),
+      in_parens(":metaclass", $._any_symbol)),
 
     // --- type specifier ---
     type: $ => choice($._any_symbol, $.list),
