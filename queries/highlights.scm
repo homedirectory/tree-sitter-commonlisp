@@ -2,9 +2,6 @@
 
 ;;;; Preface
 
-;;; We are using @keyword for names of special forms, such as let,
-;;; and @function.macro for macros, such as defun.
-
 ;;; Order of query definitions matters: queries that are specified last have 
 ;;; higher precedence.
 
@@ -52,7 +49,7 @@
 (method_qual) @lisp.keyword
 
 (declare
-  "declare" @keyword)
+  "declare" @lisp.special)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; defclass
@@ -71,7 +68,7 @@
 ;;;; lambda
 
 (lambda
-  "lambda" @keyword)
+  "lambda" @lisp.special)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; lambda-list
@@ -111,7 +108,7 @@
 ;;;; Data and Control Flow
 
 (let
-  ["let" "let*"] @keyword)
+  ["let" "let*"] @lisp.special)
 
 (let_binds 
   (let_bind var: (symbol) @variable))
