@@ -55,6 +55,19 @@
   "declare" @keyword)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; defclass
+
+(defclass . "defclass" @function.macro)
+
+(defclass name: (symbol) @lisp.class)
+
+(superclass_list (symbol) @lisp.class)
+
+(slot_list (slot name: (symbol) @lisp.slot))
+
+(type . (symbol) @lisp.type)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; lambda
 
 (lambda

@@ -494,7 +494,8 @@ module.exports = grammar({
       $.defparameter,
       $.defconstant,
       $.let,
-      $.destr_bind),
+      $.destr_bind,
+      $.defclass),
 
     defun: $ => in_parens(
       "defun", $.fn_name, $.lambda_list,
@@ -645,6 +646,40 @@ module.exports = grammar({
     destr_lambda_list: $ => in_parens(
       repeat(choice($.symbol, alias($.destr_lambda_list, $.lambda_list))),
       repeat(choice($.restvar, $.optvar, $.keyvar, $.auxvar, $.bodyvar, $.wholevar))),
+
+    // --- defclass ---
+    defclass: $ => in_parens(
+      "defclass",
+      field("name", $.symbol),
+      field("superclasses", $.superclass_list),
+      field("slots", $.slot_list),
+      repeat($.class_option)),
+
+    superclass_list: $ => in_parens(repeat($.symbol)),
+
+    slot_list: $ => in_parens(repeat($.slot)),
+
+    slot: $ => choice(
+      field("name", $.symbol), 
+      in_parens(field("name", $.symbol), repeat($.slot_option))),
+
+    slot_option: $ => choice(
+      seq(":reader", $.fn_name),
+      seq(":writer", $.fn_name),
+      seq(":accessor", $.fn_name),
+      seq(":allocation", choice(":instance", ":class")),
+      seq(":initarg", $._any_symbol),
+      seq(":initform", $._element),
+      seq(":type", $.type),
+      seq(":documentation", $.string)),
+
+    class_option: $ => choice(
+      in_parens(":default-initargs", repeat(seq($._any_symbol, $._element))),
+      in_parens(":documentation", $.string),
+      in_parens(":metaclass", $.symbol)),
+
+    // --- type specifier ---
+    type: $ => choice($._any_symbol, $.list),
 
   }, 
 

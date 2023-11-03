@@ -1,0 +1,71 @@
+================================================================================
+defclass - slots
+================================================================================
+
+(defclass point () (x y))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defclass name: (symbol) 
+    superclasses: (superclass_list)
+    slots: (slot_list (slot name: (symbol))
+                      (slot name: (symbol))))
+  )
+
+================================================================================
+defclass - superclasses
+================================================================================
+
+(defclass point (c1 c2) ())
+
+--------------------------------------------------------------------------------
+
+(source
+  (defclass name: (symbol) 
+    superclasses: (superclass_list (symbol) (symbol))
+    slots: (slot_list))
+  )
+
+================================================================================
+defclass - class options
+================================================================================
+
+(defclass point () (x y)
+  (:default-initargs :x 0 :y 0)
+  (:documentation "A 2D point."))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defclass name: (symbol) 
+    superclasses: (superclass_list)
+    slots: (slot_list (slot name: (symbol))
+                      (slot name: (symbol)))
+    (class_option (keyword) (number) (keyword) (number))
+    (class_option (string)))
+  )
+
+================================================================================
+defclass - slot options
+================================================================================
+
+(defclass point () 
+  ((x :reader point-x :type number)
+   (y :writer point-y :type (or integer float) :initarg :y)))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defclass name: (symbol) 
+    superclasses: (superclass_list)
+    slots: (slot_list 
+             (slot name: (symbol) 
+                   (slot_option (fn_name (symbol))) 
+                   (slot_option (type (symbol))))
+             (slot name: (symbol) 
+                   (slot_option (fn_name (symbol))) 
+                   (slot_option (type (list (symbol) (symbol) (symbol))))
+                   (slot_option (keyword)))))
+  )
+

@@ -67,3 +67,5 @@ pkg:sym
 (+ #C(2 1) #c(1 2)) ; complex
 
 (destructuring-bind (x (y &rest ys)) '(1 (2)) (+ x y))
+
+(defclass a:b (a) (x (y :type (or string number))))
