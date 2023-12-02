@@ -495,7 +495,8 @@ module.exports = grammar({
       $.defconstant,
       $.let,
       $.destr_bind,
-      $.defclass),
+      $.defclass,
+      $.labels, $.flet, $.macrolet),
 
     defun: $ => in_parens(
       "defun", $.fn_name, $.lambda_list,
@@ -677,6 +678,38 @@ module.exports = grammar({
       in_parens(":default-initargs", repeat(seq($._any_symbol, $._element))),
       in_parens(":documentation", $.string),
       in_parens(":metaclass", $._any_symbol)),
+
+    // -- labels, flet, macrolet --
+
+    labels: $ => in_parens(
+      "labels", 
+      in_parens(repeat($.labels1)),
+      repeat($.declare),
+      optional($._body)),
+
+    labels1: $ => in_parens($.fn_name, $.lambda_list,
+      repeat($.declare), 
+      optional(choice($._doc_body, $._body))),
+
+    flet: $ => in_parens(
+      "flet", 
+      in_parens(repeat($.flet1)),
+      repeat($.declare),
+      optional($._body)),
+
+    flet1: $ => in_parens($.fn_name, $.lambda_list,
+      repeat($.declare), 
+      optional(choice($._doc_body, $._body))),
+
+    macrolet: $ => in_parens(
+      "macrolet", 
+      in_parens(repeat($.macrolet1)),
+      repeat($.declare),
+      optional($._body)),
+
+    macrolet1: $ => in_parens($._any_symbol, $.lambda_list,
+      repeat($.declare), 
+      optional(choice($._doc_body, $._body))),
 
     // --- type specifier ---
     type: $ => choice($._any_symbol, $.list),

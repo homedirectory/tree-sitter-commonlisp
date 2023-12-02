@@ -1,0 +1,68 @@
+================================================================================
+labels
+================================================================================
+
+(labels ((f (x y)
+            (declare (number x) (number y))
+            (declare (number y))
+            "add 2 numbers"
+            (+ x y))
+         (g (x) x)))
+
+--------------------------------------------------------------------------------
+
+(source
+  (labels 
+    (labels1 (fn_name (symbol)) (lambda_list (symbol) (symbol))
+             (declare (list (symbol) (symbol)) (list (symbol) (symbol)))
+             (declare (list (symbol) (symbol)))
+             (documentation)
+             (list (symbol) (symbol) (symbol)))
+    (labels1
+      (fn_name (symbol)) (lambda_list (symbol)) (symbol))))
+
+================================================================================
+flet
+================================================================================
+
+(flet ((f (x y)
+            (declare (number x) (number y))
+            (declare (number y))
+            "add 2 numbers"
+            (+ x y))
+         (g (x) x)))
+
+--------------------------------------------------------------------------------
+
+(source
+  (flet 
+    (flet1 (fn_name (symbol)) (lambda_list (symbol) (symbol))
+             (declare (list (symbol) (symbol)) (list (symbol) (symbol)))
+             (declare (list (symbol) (symbol)))
+             (documentation)
+             (list (symbol) (symbol) (symbol)))
+    (flet1
+      (fn_name (symbol)) (lambda_list (symbol)) (symbol))))
+
+================================================================================
+macrolet
+================================================================================
+
+(macrolet ((f (x y)
+            (declare (number x) (number y))
+            (declare (number y))
+            "add 2 numbers"
+            (+ x y))
+         (g (x) x)))
+
+--------------------------------------------------------------------------------
+
+(source
+  (macrolet 
+    (macrolet1 (symbol) (lambda_list (symbol) (symbol))
+               (declare (list (symbol) (symbol)) (list (symbol) (symbol)))
+               (declare (list (symbol) (symbol)))
+               (documentation)
+               (list (symbol) (symbol) (symbol)))
+    (macrolet1
+      (symbol) (lambda_list (symbol)) (symbol))))

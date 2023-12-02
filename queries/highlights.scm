@@ -32,19 +32,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; defun
 
-(defun 
-  "defun" @function.macro
-  [(fn_name (symbol) @function)
-   (fn_name "setf" @function.builtin (symbol) @function)])
+(fn_name (symbol) @function)
+(fn_name "setf" @function.builtin (symbol) @function)
+
+(defun "defun" @function.macro)
 
 (defmacro 
   "defmacro" @function.macro
   name: (symbol) @function)
 
-(defmethod 
-  "defmethod" @function.macro
-  [(fn_name (symbol) @function)
-   (fn_name "setf" @function.builtin (symbol) @function)])
+(defmethod "defmethod" @function.macro)
 
 (method_qual) @lisp.keyword
 
@@ -118,6 +115,9 @@
 (list . (symbol) @macro.builtin (#match? @macro.builtin "^(.+::?)?with-slots$") 
       . (list (symbol) @variable))
 
+(labels "labels" @lisp.special)
+(flet "flet" @lisp.special)
+(macrolet "macrolet" @lisp.special)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Sharpsign
