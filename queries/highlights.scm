@@ -113,7 +113,11 @@
 (let_binds 
   (let_bind var: (symbol) @variable))
 
-(destr_bind "destructuring-bind" @function.macro)
+(destr_bind "destructuring-bind" @macro.builtin)
+
+(list . (symbol) @macro.builtin (#match? @macro.builtin "^(.+::?)?with-slots$") 
+      . (list (symbol) @variable))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Sharpsign
