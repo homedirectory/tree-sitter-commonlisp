@@ -322,7 +322,7 @@ module.exports = grammar({
 
   name: "commonlisp",
 
-  extras: $ => [WHITESPACE, $.block_comment],
+  extras: $ => [WHITESPACE, $.comment, $.block_comment],
 
   conflicts: $ => [
     [$.documentation, $.string],
@@ -341,7 +341,6 @@ module.exports = grammar({
       $.symbol, 
       $.list,
       $.quote,
-      $.comment,
       $.t,
       $.nil,
       $.string,

@@ -69,3 +69,8 @@ pkg:sym
 (destructuring-bind (x (y &rest ys)) '(1 (2)) (+ x y))
 
 (defclass a:b (a) (x (y :type (or string number))))
+; comments inside forms
+(let ((a ;what
+        1)
+      ; h
+      (b #||# 2)))
