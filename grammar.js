@@ -328,6 +328,8 @@ module.exports = grammar({
     [$.documentation, $.string],
   ],
 
+  supertypes: $=> [$._symbol],
+
   rules: {
 
     source: $ => repeat($._element),
@@ -336,9 +338,7 @@ module.exports = grammar({
 
     _token: $ => choice(
       $.number, 
-      $.pkg_symbol,
-      $.keyword,
-      $.symbol, 
+      $._symbol,
       $.list,
       $.quote,
       $.t,
