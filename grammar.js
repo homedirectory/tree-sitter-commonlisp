@@ -313,7 +313,7 @@ function make_defvar($, macro_name, opt_init = true) {
 
   return in_parens(
     macro_name,
-    field("name", $._any_symbol), 
+    field("name", $._symbol), 
     opt_init ? optional(init_rule) : init_rule);
 }
 
@@ -390,7 +390,7 @@ module.exports = grammar({
     // bar:foo => (symbol (package) (sym))
     symbol: $ => prec(PREC.symbol, token(SYMBOL)),
 
-    _any_symbol: $ => choice($.pkg_symbol, $.keyword, $.symbol),
+    _symbol: $ => choice($.pkg_symbol, $.keyword, $.symbol),
 
     list: $ => $._list,
 
@@ -504,11 +504,11 @@ module.exports = grammar({
 
     defmacro: $ => in_parens(
       // is aliasing macro_lambda_list a good choice?
-      "defmacro", field("name", $._any_symbol), alias($.macro_lambda_list, $.lambda_list),
+      "defmacro", field("name", $._symbol), alias($.macro_lambda_list, $.lambda_list),
       repeat($.declare), 
       optional(choice($._doc_body, $._body))),
 
-    fn_name: $ => choice($._any_symbol, in_parens("setf", $._any_symbol)),
+    fn_name: $ => choice($._symbol, in_parens("setf", $._symbol)),
 
     _doc_body: $ => seq($.documentation, repeat1($._element)),
 
@@ -546,7 +546,7 @@ module.exports = grammar({
         in_parens(
           choice(
             field("var", $.symbol),
-            in_parens(field("kwd_name", $._any_symbol), field("var", $.symbol))),
+            in_parens(field("kwd_name", $._symbol), field("var", $.symbol))),
           optional(seq(
             field("init", $._element),
             optional(field("p", $.symbol))))))),
@@ -606,8 +606,8 @@ module.exports = grammar({
     let_binds: $ => in_parens(repeat($.let_bind)),
 
     let_bind: $ => choice(
-      field("var", $._any_symbol),
-      in_parens(field("var", $._any_symbol), optional(field("init", $._element)))),
+      field("var", $._symbol),
+      in_parens(field("var", $._symbol), optional(field("init", $._element)))),
 
     // --- defmethod ---
 
@@ -628,11 +628,11 @@ module.exports = grammar({
     // [&aux {var | (var [initform] )}*] ) 
     specialized_lambda_list: $ => in_parens(
       // {var | (var parameter-specializer-name)}*
-      repeat(choice($._any_symbol, in_parens($._any_symbol, $.param_spec))),
+      repeat(choice($._symbol, in_parens($._symbol, $.param_spec))),
       repeat(choice($.optvar, $.restvar, $.keyvar, $.auxvar))),
 
     // parameter-specializer-name ::= symbol | (eql eql-specializer-form)
-    param_spec: $ => choice($._any_symbol, $.eql_spec),
+    param_spec: $ => choice($._symbol, $.eql_spec),
 
     eql_spec: $ => in_parens("eql", $._element),
 
@@ -650,12 +650,12 @@ module.exports = grammar({
     // --- defclass ---
     defclass: $ => in_parens(
       "defclass",
-      field("name", $._any_symbol),
+      field("name", $._symbol),
       field("superclasses", $.superclass_list),
       field("slots", $.slot_list),
       repeat($.class_option)),
 
-    superclass_list: $ => in_parens(repeat($._any_symbol)),
+    superclass_list: $ => in_parens(repeat($._symbol)),
 
     slot_list: $ => in_parens(repeat($.slot)),
 
@@ -668,15 +668,15 @@ module.exports = grammar({
       seq(":writer", $.fn_name),
       seq(":accessor", $.fn_name),
       seq(":allocation", choice(":instance", ":class")),
-      seq(":initarg", $._any_symbol),
+      seq(":initarg", $._symbol),
       seq(":initform", $._element),
       seq(":type", $.type),
       seq(":documentation", $.string)),
 
     class_option: $ => choice(
-      in_parens(":default-initargs", repeat(seq($._any_symbol, $._element))),
-      in_parens(":documentation", $.string),
-      in_parens(":metaclass", $._any_symbol)),
+      in_parens(":default-initargs", repeat(seq($._symbol, $._element))),
+      in_parens(":documentation", $.documentation),
+      in_parens(":metaclass", $._symbol)),
 
     // -- labels, flet, macrolet --
 
@@ -706,12 +706,12 @@ module.exports = grammar({
       repeat($.declare),
       optional($._body)),
 
-    macrolet1: $ => in_parens($._any_symbol, $.lambda_list,
+    macrolet1: $ => in_parens($._symbol, $.lambda_list,
       repeat($.declare), 
       optional(choice($._doc_body, $._body))),
 
     // --- type specifier ---
-    type: $ => choice($._any_symbol, $.list),
+    type: $ => choice($._symbol, $.list),
 
   }, 
 
