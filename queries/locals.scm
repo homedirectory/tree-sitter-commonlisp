@@ -2,15 +2,15 @@
 ;;;; locals.scm
 
 (let) @local.scope
-(defun) @local.scope
 (lambda) @local.scope
 
-(lambda_list (symbol) @local.definition)
+(defun (fn_name (symbol) @local.definition.function))
+(lambda_list (symbol) @local.definition.parameter)
 
-(let_bind var: (symbol) @local.definition)
+(let_bind var: (symbol) @local.definition.var)
 
-(defvar name: (symbol) @local.definition)
-(defparameter name: (symbol) @local.definition)
-(defconstant name: (symbol) @local.definition)
+(defvar name: (symbol) @local.definition.var)
+(defparameter name: (symbol) @local.definition.var)
+(defconstant name: (symbol) @local.definition.var)
 
 (symbol) @local.reference
