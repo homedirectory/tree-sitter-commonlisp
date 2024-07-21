@@ -43,6 +43,8 @@
 
 (defmethod "defmethod" @function.macro)
 
+(defgeneric "defgeneric" @function.macro)
+
 (method_qual) @lisp.keyword
 
 (declare

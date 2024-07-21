@@ -1,8 +1,9 @@
-;;;; tree-sitter-commonlisp 
+;;;; tree-sitter-commonlisp
 ;;;; locals.scm
 
 (defun) @local.scope
 (defmethod) @local.scope
+(defgeneric) @local.scope
 (defmacro) @local.scope
 (let) @local.scope
 (flet) @local.scope
@@ -10,10 +11,12 @@
 (destr_bind) @local.scope
 (lambda) @local.scope
 
-(defun (fn_name (symbol) @local.definition.function 
+(defun (fn_name (symbol) @local.definition.function
                 (#set! local.definition.function.scope "parent")))
 (defmethod (fn_name (symbol) @local.definition.function
                     (#set! local.definition.function.scope "parent")))
+(defgeneric (fn_name (symbol) @local.definition.function
+                     (#set! local.definition.function.scope "parent")))
 (defmacro name: (symbol) @local.definition.macro
   (#set! local.definition.macro.scope "parent"))
 
