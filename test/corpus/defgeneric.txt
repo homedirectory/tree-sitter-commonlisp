@@ -1,0 +1,107 @@
+================================================================================
+defgeneric - simple
+================================================================================
+
+(defgeneric f (x y))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defgeneric (fn_name (symbol)) (lambda_list (symbol) (symbol)))
+  )
+
+================================================================================
+defgeneric - optional parameters
+================================================================================
+
+(defgeneric f (x &optional y (k)))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defgeneric (fn_name (symbol))
+              (lambda_list (symbol) (optvar var: (symbol) var: (symbol))))
+  )
+
+================================================================================
+defgeneric - key parameters
+================================================================================
+
+(defgeneric f (x &key y (k) ((:my-j j)) &allow-other-keys))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defgeneric (fn_name (symbol))
+              (lambda_list (symbol)
+                           (keyvar var: (symbol)
+                                   var: (symbol)
+                                   kwd_name: (keyword) var: (symbol)
+                                   (allow_other_keys))))
+  )
+
+================================================================================
+defgeneric - rest parameter
+================================================================================
+
+(defgeneric f (x &rest xs))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defgeneric (fn_name (symbol))
+              (lambda_list (symbol)
+                           (restvar var: (symbol))))
+  )
+
+================================================================================
+defgeneric - option
+================================================================================
+
+(defgeneric f (a b c)
+  (:documentation "Doc")
+  (declare (optimize 1))
+  (:argument-precedence-order c a b)
+  (:method-combination cmb 42)
+  (:generic-function-class my-gf)
+  (:method-class my-method))
+
+--------------------------------------------------------------------------------
+
+(source
+  (defgeneric (fn_name (symbol))
+              (lambda_list (symbol) (symbol) (symbol))
+              (gf_option (documentation))
+              (declare (list (symbol) (number)))
+              (gf_option (symbol) (symbol) (symbol))
+              (gf_option (symbol) (number))
+              (gf_option (symbol))
+              (gf_option (symbol)))
+  )
+
+================================================================================
+defgeneric - method description
+================================================================================
+
+(defgeneric f (a b)
+  (:documentation "Doc")
+  (:method ((a integer) b) 4)
+  (:method ((a list) b)
+           "Doc"
+           a)
+  (:method-class my-method)
+  )
+
+--------------------------------------------------------------------------------
+
+(source
+  (defgeneric (fn_name (symbol))
+              (lambda_list (symbol) (symbol))
+              (gf_option (documentation))
+              (gf_method_desc (lambda_list (symbol) (param_spec (symbol)) (symbol))
+                              (number))
+              (gf_method_desc (lambda_list (symbol) (param_spec (symbol)) (symbol))
+                              (documentation)
+                              (symbol))
+              (gf_option (symbol)))
+  )

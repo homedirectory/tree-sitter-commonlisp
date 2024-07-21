@@ -484,6 +484,7 @@ module.exports = grammar({
       $.defun,
       $.defmacro,
       $.defmethod,
+      $.defgeneric,
       $.lambda,
       $.defvar,
       $.defparameter,
@@ -631,6 +632,50 @@ module.exports = grammar({
     param_spec: $ => choice($._symbol, $.eql_spec),
 
     eql_spec: $ => in_parens("eql", $._element),
+
+    // --- defgeneric ---
+
+    // defgeneric function-name gf-lambda-list [[option | {method-description}*]]
+    defgeneric: $ => in_parens(
+      "defgeneric", $.fn_name,
+      alias($.gf_lambda_list, $.lambda_list),
+      repeat(choice($.gf_option, $.declare, $.gf_method_desc))),
+
+    gf_lambda_list: $ => in_parens(
+      repeat($.symbol), 
+      repeat(choice($.restvar,
+                    alias($.gf_optvar, $.optvar), 
+                    alias($.gf_keyvar, $.keyvar)))),
+
+    // Optional parameters and keyword parameters may not have default initial
+    // value forms nor use supplied-p param
+    gf_keyvar: $ => seq(
+      "&key",
+      repeat(
+        choice(field("var", $.symbol),
+               in_parens(
+                 choice(field("var", $.symbol),
+                        in_parens(field("kwd_name", $._symbol), field("var", $.symbol)))))),
+      optional($.allow_other_keys)),
+
+    gf_optvar: $ => seq(
+      "&optional",
+      repeat(choice(field("var", $.symbol),
+                    in_parens(field("var", $.symbol))))),
+
+    gf_option: $ => choice(
+      in_parens(":documentation", $.documentation),
+      in_parens(":argument-precedence-order", repeat($.symbol)),
+      in_parens(":method-combination", $.symbol, $._element),
+      in_parens(":generic-function-class", $.symbol),
+      in_parens(":method-class", $.symbol)),
+
+    gf_method_desc: $ => in_parens(
+      ":method",
+      repeat($.method_qual),
+      alias($.specialized_lambda_list, $.lambda_list),
+      repeat($.declare),
+      optional(choice($._doc_body, $._body))),
 
     // --- destructuring-bind ---
     destr_bind: $ => in_parens(
