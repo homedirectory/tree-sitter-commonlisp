@@ -112,6 +112,9 @@
 (let_binds 
   (let_bind var: (symbol) @variable))
 
+(with_slots "with-slots" @macro.builtin)
+(slot_entry var: (symbol) @variable)
+
 (destr_bind "destructuring-bind" @macro.builtin)
 
 (list . (symbol) @macro.builtin (#match? @macro.builtin "^(.+::?)?with-slots$") 

@@ -492,6 +492,7 @@ module.exports = grammar({
       $.let,
       $.destr_bind,
       $.defclass,
+      $.with_slots,
       $.labels, $.flet, $.macrolet),
 
     defun: $ => in_parens(
@@ -718,6 +719,21 @@ module.exports = grammar({
       in_parens(":default-initargs", repeat(seq($._symbol, $._element))),
       in_parens(":documentation", $.documentation),
       in_parens(":metaclass", $._symbol)),
+
+    // --- with-slots ---
+
+    // with-slots (slot-entry*) instance-form declaration* form*
+    with_slots: $ => in_parens(
+      "with-slots",
+      in_parens(repeat($.slot_entry)),
+      $._element,
+      repeat($.declare),
+      repeat($._element)
+    ),
+
+    slot_entry: $ => choice(
+      field("var", $.symbol),
+      in_parens(field("var", $.symbol), field("slot", $.symbol))),
 
     // -- labels, flet, macrolet --
 

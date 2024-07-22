@@ -74,3 +74,7 @@ pkg:sym
         1)
       ; h
       (b #||# 2)))
+
+(with-slots (x (y my-slot)) nil
+  (print (+ x y))
+  (list 1 2 x y))

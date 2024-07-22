@@ -6,6 +6,7 @@
 (defgeneric) @local.scope
 (defmacro) @local.scope
 (let) @local.scope
+(with_slots) @local.scope
 (flet) @local.scope
 (macrolet) @local.scope
 (destr_bind) @local.scope
@@ -29,6 +30,7 @@
 (lambda_list (symbol) @local.definition.parameter)
 
 (let_bind var: (symbol) @local.definition.var)
+(slot_entry var: (symbol) @local.definition.var)
 
 (defvar name: (symbol) @local.definition.var)
 (defparameter name: (symbol) @local.definition.var)
