@@ -713,7 +713,7 @@ module.exports = grammar({
       seq(":initarg", $._symbol),
       seq(":initform", $._element),
       seq(":type", $.type),
-      seq(":documentation", $.string)),
+      seq(":documentation", $.documentation)),
 
     class_option: $ => choice(
       in_parens(":default-initargs", repeat(seq($._symbol, $._element))),
