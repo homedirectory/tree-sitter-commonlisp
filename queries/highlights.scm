@@ -88,6 +88,8 @@
    ]
   )
 
+(destr_patt (symbol) @variable)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; defvar, defparameter
 

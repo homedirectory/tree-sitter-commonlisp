@@ -13,7 +13,21 @@ destr_bind - simple case
   )
 
 ================================================================================
-destr_bind - nested lambda lists
+destr_bind - key with no required vars
+================================================================================
+
+(destructuring-bind (x (&key y)) (list 1 (list :y 2)) y)
+
+--------------------------------------------------------------------------------
+
+(source
+  (destr_bind (lambda_list (symbol) (destr_patt (keyvar (symbol))))
+              (list (symbol) (number) (list (symbol) (keyword) (number)))
+              (symbol))
+  )
+
+================================================================================
+destr_bind - nested pattern 1
 ================================================================================
 
 (destructuring-bind ((x &rest xs)) (list (list 1)) x)
@@ -21,7 +35,29 @@ destr_bind - nested lambda lists
 --------------------------------------------------------------------------------
 
 (source
-  (destr_bind (lambda_list (lambda_list (symbol) (restvar var: (symbol))))
+  (destr_bind (lambda_list (destr_patt (symbol) (restvar var: (symbol))))
+              (list (symbol) (list (symbol) (number)))
+              (symbol))
+  )
+
+
+================================================================================
+destr_bind - nested pattern 2
+================================================================================
+
+(destructuring-bind ((x (y &optional ((z))) &rest (xs (ys) zs)))
+    (list (list 1))
+  x)
+
+--------------------------------------------------------------------------------
+
+(source
+  (destr_bind (lambda_list (destr_patt (symbol)
+                                       (destr_patt (symbol)
+                                                   (optvar (destr_patt (symbol))))
+                                       (restvar (destr_patt (symbol)
+                                                            (destr_patt (symbol))
+                                                            (symbol)))))
               (list (symbol) (list (symbol) (number)))
               (symbol))
   )

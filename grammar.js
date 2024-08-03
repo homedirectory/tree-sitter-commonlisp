@@ -568,17 +568,54 @@ module.exports = grammar({
 
     // 3.4.4 Macro Lambda Lists
     macro_lambda_list: $ => in_parens(
-      repeat($.symbol), 
-      repeat(choice($.restvar, $.optvar, $.keyvar, $.auxvar, $.bodyvar, $.envvar, $.wholevar))),
+      repeat($._destr_patt),
+      repeat(choice(
+        alias($._destr_restvar, $.restvar),
+        alias($._destr_optvar, $.optvar),
+        alias($._destr_keyvar, $.keyvar),
+        $.auxvar, $.bodyvar, $.envvar, $.wholevar))),
 
     // &body var
-    bodyvar: $ => seq("&body", field("var", $.symbol)),
-    
+    bodyvar: $ => seq("&body", field("var", $._destr_patt)),
+
+    // &rest var
+    // destructuring version
+    // var ::= symbol | list (destructuring pattern)
+    _destr_restvar: $ => seq("&rest", field("var", $._destr_patt)),
+
     // &whole var
-    wholevar: $ => seq("&whole", field("var", $.symbol)),
+    // desructuring rule included, since &body can only appear in a lambda list
+    wholevar: $ => seq("&whole", field("var", $._destr_patt)),
 
     // &environment var
     envvar: $ => seq("&environment", field("var", $.symbol)),
+
+    // &optional var
+    // destructuring version
+    // var ::= symbol | list (destructuring pattern)
+    _destr_optvar: $ => seq(
+      "&optional",
+      repeat(choice(
+        field("var", $.symbol),
+        in_parens(
+          field("var", $._destr_patt),
+          optional(seq(field("init", $._element),
+                       optional(field("p", $.symbol)))))))),
+
+    // &key
+    // destructuring version
+    _destr_keyvar: $ => seq(
+      "&key",
+      repeat(choice(
+        field("var", $.symbol),
+        in_parens(
+          choice(
+            field("var", $.symbol),
+            in_parens(field("kwd_name", $._symbol), field("var", $._destr_patt))),
+          optional(seq(
+            field("init", $._element),
+            optional(field("p", $.symbol))))))),
+      optional($.allow_other_keys)),
 
     declare: $ => in_parens("declare", repeat($._token)),
 
@@ -686,14 +723,30 @@ module.exports = grammar({
 
     // --- destructuring-bind ---
     destr_bind: $ => in_parens(
-      "destructuring-bind", 
-      alias($.destr_lambda_list, $.lambda_list), 
+      "destructuring-bind",
+      alias($.destr_lambda_list, $.lambda_list),
       repeat($.declare),
       repeat($._element)),
 
     destr_lambda_list: $ => in_parens(
-      repeat(choice($.symbol, alias($.destr_lambda_list, $.lambda_list))),
-      repeat(choice($.restvar, $.optvar, $.keyvar, $.auxvar, $.bodyvar, $.wholevar))),
+      repeat($._destr_patt),
+      repeat(choice(
+        alias($._destr_restvar, $.restvar),
+        alias($._destr_optvar, $.optvar),
+        alias($._destr_keyvar, $.keyvar),
+        $.auxvar, $.bodyvar, $.wholevar))),
+
+    _destr_patt: $ => choice(
+      $.symbol,
+      $.destr_patt),
+
+    destr_patt: $ => in_parens(
+      repeat($._destr_patt),
+      repeat(choice(
+        alias($._destr_restvar, $.restvar),
+        alias($._destr_optvar, $.optvar),
+        alias($._destr_keyvar, $.keyvar),
+        $.auxvar, $.wholevar))),
 
     // --- defclass ---
     defclass: $ => in_parens(
