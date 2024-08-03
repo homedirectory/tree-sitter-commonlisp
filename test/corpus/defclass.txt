@@ -43,7 +43,7 @@ defclass - class options
     slots: (slot_list (slot name: (symbol))
                       (slot name: (symbol)))
     (class_option (keyword) (number) (keyword) (number))
-    (class_option (string)))
+    (class_option (documentation)))
   )
 
 ================================================================================
