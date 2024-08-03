@@ -3,27 +3,49 @@
   "version": "0.0.1",
   "description": "Tree-sitter grammar for Common Lisp",
   "main": "bindings/node",
+  "types": "bindings/node",
   "scripts": {
-    "test": "tree-sitter generate && tree-sitter test"
+    "test": "tree-sitter generate && tree-sitter test",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
   },
   "keywords": [
     "tree-sitter",
     "common lisp"
   ],
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
   "author": "homedirectory",
   "license": "UNLICENSED",
   "dependencies": {
-    "nan": "^2.17.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "tree-sitter": [
     {
       "scope": "source.commonlisp",
       "file-types": [
-        "lisp", "cl", "clisp"
-      ],
-      "highlights": [
-        "queries/highlights.scm"
+        "lisp",
+        "cl",
+        "clisp"
       ]
     }
-  ]
+  ],
+  "devDependencies": {
+    "prebuildify": "^6.0.0"
+  }
 }
