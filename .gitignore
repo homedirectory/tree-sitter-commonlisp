@@ -1,2 +1,10 @@
 /node_modules/
 /src/
+/.editorconfig
+/commonlisp.so
+/bindings
+/setup.py
+/Package.swift
+/Makefile
+/pyproject.toml
+/binding.gyp
