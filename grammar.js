@@ -471,6 +471,11 @@ module.exports = grammar({
     // 2.4.8.19 Sharpsign Vertical-Bar (block comment)
     block_comment: $ => seq("#|", repeat(choice($.block_comment, /[^|]/, /\|[^#]/)), "|#"),
 
+    _string_designator: $ => choice(
+      $.character,
+      $._symbol,
+      $.string),
+
     // ------------------------------------------------------------
     // Forms
     // ------------------------------------------------------------
@@ -493,7 +498,8 @@ module.exports = grammar({
       $.destr_bind,
       $.defclass,
       $.with_slots,
-      $.labels, $.flet, $.macrolet),
+      $.labels, $.flet, $.macrolet,
+      $.in_package),
 
     defun: $ => in_parens(
       "defun", $.fn_name, $.lambda_list,
@@ -766,6 +772,9 @@ module.exports = grammar({
     macrolet1: $ => in_parens($._symbol, $.lambda_list,
       repeat($.declare), 
       optional(choice($._doc_body, $._body))),
+
+    in_package: $ => in_parens(
+      "in-package", $._string_designator),
 
     // --- type specifier ---
     type: $ => choice($._symbol, $.list),
