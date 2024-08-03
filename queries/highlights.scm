@@ -75,18 +75,14 @@
 (lambda_list
   (symbol) @parameter)
 
-(lambda_list
-  [
-   (optvar   . "&optional"     @keyword.lambda var: (symbol) @parameter)
-   (restvar  . "&rest"         @keyword.lambda var: (symbol) @parameter) 
-   (keyvar   . "&key"          @keyword.lambda var: (symbol) @parameter)
-   (auxvar   . "&aux"          @keyword.lambda var: (symbol) @parameter)
-   (envvar   . "&environment"  @keyword.lambda var: (symbol) @parameter)
-   (wholevar . "&whole"        @keyword.lambda var: (symbol) @parameter)
-   (bodyvar  . "&body"         @keyword.lambda var: (symbol) @parameter)
-   (keyvar (allow_other_keys) @keyword.lambda .)
-   ]
-  )
+(optvar   . "&optional"     @keyword.lambda)
+(restvar  . "&rest"         @keyword.lambda)
+(keyvar   . "&key"          @keyword.lambda)
+(auxvar   . "&aux"          @keyword.lambda)
+(envvar   . "&environment"  @keyword.lambda)
+(wholevar . "&whole"        @keyword.lambda)
+(bodyvar  . "&body"         @keyword.lambda)
+(keyvar (allow_other_keys) @keyword.lambda .)
 
 (destr_patt (symbol) @variable)
 
