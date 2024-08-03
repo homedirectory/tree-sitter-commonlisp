@@ -92,7 +92,7 @@ const DIGIT = /[0-9a-zA-Z]/; // ?
 // #b  #B  binary   radix 2
 // #o  #O  octal    radix 8
 // #x  #X  hex      radix 16
-// #nr #nR radix-n  radix 2..36 
+// #nr #nR radix-n  radix 2..36
 //         decimal  radix 10
 
 // '' stands for decimal
@@ -186,7 +186,7 @@ const NUMBER = choice(INTEGER, RATIO, FLOAT);
 // 2.3.4 Symbols as Tokens
 // =============================================================================
 
-// We can categorize symbols into 2 groups: 
+// We can categorize symbols into 2 groups:
 // 1. multiple-escaped symbols - symbols wrapped inside 'multiple escape' characters,
 // that is, by the vertical-bar symbol '|'
 // 2. raw symbols - symbols that are not multiple-escaped
@@ -241,8 +241,8 @@ const SYMBOL = repeat1(choice(RAW_SYMBOL, MULTI_ESCAPED_SYMBOL));
 
 // Brackets ([]) and braces ({}) are considered constituent characters,
 // so the following are valid symbols: [], [a], a{b}c.
-// From 2.1.4: 
-// > ... are initially constituents, but they are not used in any standard Common Lisp notations. 
+// From 2.1.4:
+// > ... are initially constituents, but they are not used in any standard Common Lisp notations.
 // > These characters are explicitly reserved to the programmer.
 // Therefore, we use only parens as list enclosing characters.
 
@@ -263,7 +263,7 @@ const DOUBLE_QUOTE = '"';
 const NOT_DOUBLE_QUOTE = /[^"]/;
 
 const STRING = token(seq(
-  DOUBLE_QUOTE, 
+  DOUBLE_QUOTE,
   repeat(choice(escape_single(DOUBLE_QUOTE), NOT_DOUBLE_QUOTE)),
   DOUBLE_QUOTE));
 
@@ -313,7 +313,7 @@ function make_defvar($, macro_name, opt_init = true) {
 
   return in_parens(
     macro_name,
-    field("name", $._symbol), 
+    field("name", $._symbol),
     opt_init ? optional(init_rule) : init_rule);
 }
 
@@ -337,7 +337,7 @@ module.exports = grammar({
     _element: $ => choice($._token, $._form),
 
     _token: $ => choice(
-      $.number, 
+      $.number,
       $._symbol,
       $.list,
       $.quote,
@@ -362,7 +362,7 @@ module.exports = grammar({
     // ------------------------------------------------------------
     // Tokens
     // ------------------------------------------------------------
-    // Tokens include: 
+    // Tokens include:
     // * objects (e.g., symbol, list, number)
     // * special characters (e.g., dot, comma)
     // * quotes and quasiquotes
@@ -381,7 +381,7 @@ module.exports = grammar({
         field("sym", token.immediate(SYMBOL))))),
 
     // keyword:foo will parse as $.pkg_symbol even if optional("keyword") was prepended but that's fine
-    keyword: $ => prec(PREC.keyword, 
+    keyword: $ => prec(PREC.keyword,
       token(seq(":", token.immediate(SYMBOL)))),
 
     symbol: $ => prec(PREC.symbol, token(SYMBOL)),
@@ -411,13 +411,13 @@ module.exports = grammar({
     unquote_splicing: $ => seq(UNQUOTE_SPLICING, $._token),
 
     dot: $ => DOT,
-    
+
     // 2.4.8.1 Sharpsign Backslash
     character: $ => token(seq(
       "#\\",
       token.immediate(
         choice(
-          obj_choice(without(SYNTAX_TYPES, "whitespace")), 
+          obj_choice(without(SYNTAX_TYPES, "whitespace")),
           CHARACTER_NAME)))),
 
     // 2.4.8.2 Sharpsign Single-Quote
@@ -425,15 +425,15 @@ module.exports = grammar({
 
     // 2.4.8.3 Sharpsign Left-Parenthesis
     vector: $ => seq(
-      SHARPSIGN, 
-      optional(field("len", alias(token.immediate(UNSIGNED_DECIMAL_INTEGER), $.number))), 
+      SHARPSIGN,
+      optional(field("len", alias(token.immediate(UNSIGNED_DECIMAL_INTEGER), $.number))),
       $._list),
 
     // 2.4.8.4 Sharpsign Asterisk
     bitvector: $ => seq(
-      SHARPSIGN, 
-      optional(field("len", alias(token.immediate(UNSIGNED_DECIMAL_INTEGER), $.number))), 
-      ASTERISK, 
+      SHARPSIGN,
+      optional(field("len", alias(token.immediate(UNSIGNED_DECIMAL_INTEGER), $.number))),
+      ASTERISK,
       // need alias() to use token.immediate() and represent as (bits)
       optional(alias(token.immediate(/[01]+/), $.bits))),
 
@@ -480,7 +480,7 @@ module.exports = grammar({
     // Forms
     // ------------------------------------------------------------
     // Forms are either special forms, such as let, or macros, such as defun.
-    // Forms consist of tokens and other forms. 
+    // Forms consist of tokens and other forms.
     // A better but longer name is "compound form".
     //
     // See 3.1.2.1.2 Conses as Forms
@@ -503,13 +503,13 @@ module.exports = grammar({
 
     defun: $ => in_parens(
       "defun", $.fn_name, $.lambda_list,
-      repeat($.declare), 
+      repeat($.declare),
       optional(choice($._doc_body, $._body))),
 
     defmacro: $ => in_parens(
       // is aliasing macro_lambda_list a good choice?
       "defmacro", field("name", $._symbol), alias($.macro_lambda_list, $.lambda_list),
-      repeat($.declare), 
+      repeat($.declare),
       optional(choice($._doc_body, $._body))),
 
     fn_name: $ => choice($._symbol, in_parens("setf", $._symbol)),
@@ -521,7 +521,7 @@ module.exports = grammar({
     // --- lambda list ---
 
     lambda_list: $ => in_parens(
-      repeat($.symbol), 
+      repeat($.symbol),
       repeat(choice($.restvar, $.optvar, $.keyvar, $.auxvar))),
 
     // &rest var
@@ -538,10 +538,10 @@ module.exports = grammar({
           optional(field("p", $.symbol)))))),
 
     // &key - 3.4.1.4 Specifiers for keyword parameters
-    // &key 
-    //   {var | 
-    //     ({var | (keyword-name var)} 
-    //      [init-form [supplied-p-parameter]])}* 
+    // &key
+    //   {var |
+    //     ({var | (keyword-name var)}
+    //      [init-form [supplied-p-parameter]])}*
     //    [&allow-other-keys]
     keyvar: $ => seq(
       "&key",
@@ -563,7 +563,7 @@ module.exports = grammar({
     auxvar: $ => seq(
       "&aux",
       repeat(choice(
-        field("var", $.symbol), 
+        field("var", $.symbol),
         in_parens(field("var", $.symbol), optional(field("init", $._element)))))),
 
     // 3.4.4 Macro Lambda Lists
@@ -588,7 +588,7 @@ module.exports = grammar({
 
     lambda: $ => in_parens(
       "lambda", $.lambda_list,
-      repeat($.declare), 
+      repeat($.declare),
       optional(choice($._doc_body, $._body))),
 
     // --- defvar, defparameter ---
@@ -624,12 +624,12 @@ module.exports = grammar({
 
     method_qual: $ => choice(":before", ":around", ":after"),
 
-    // ({var | (var parameter-specializer-name)}* 
-    // [&optional {var | (var [initform [supplied-p-parameter] ])}*] 
-    // [&rest var] 
+    // ({var | (var parameter-specializer-name)}*
+    // [&optional {var | (var [initform [supplied-p-parameter] ])}*]
+    // [&rest var]
     // [&key {var | ({var | (keywordvar)} [initform [supplied-p-parameter] ])}*
-    //   [&allow-other-keys] ] 
-    // [&aux {var | (var [initform] )}*] ) 
+    //   [&allow-other-keys] ]
+    // [&aux {var | (var [initform] )}*] )
     specialized_lambda_list: $ => in_parens(
       // {var | (var parameter-specializer-name)}*
       repeat(choice($._symbol, in_parens($._symbol, $.param_spec))),
@@ -649,9 +649,9 @@ module.exports = grammar({
       repeat(choice($.gf_option, $.declare, $.gf_method_desc))),
 
     gf_lambda_list: $ => in_parens(
-      repeat($.symbol), 
+      repeat($.symbol),
       repeat(choice($.restvar,
-                    alias($.gf_optvar, $.optvar), 
+                    alias($.gf_optvar, $.optvar),
                     alias($.gf_keyvar, $.keyvar)))),
 
     // Optional parameters and keyword parameters may not have default initial
@@ -708,7 +708,7 @@ module.exports = grammar({
     slot_list: $ => in_parens(repeat($.slot)),
 
     slot: $ => choice(
-      field("name", $.symbol), 
+      field("name", $.symbol),
       in_parens(field("name", $.symbol), repeat($.slot_option))),
 
     slot_option: $ => choice(
@@ -744,33 +744,33 @@ module.exports = grammar({
     // -- labels, flet, macrolet --
 
     labels: $ => in_parens(
-      "labels", 
+      "labels",
       in_parens(repeat($.labels1)),
       repeat($.declare),
       optional($._body)),
 
     labels1: $ => in_parens($.fn_name, $.lambda_list,
-      repeat($.declare), 
+      repeat($.declare),
       optional(choice($._doc_body, $._body))),
 
     flet: $ => in_parens(
-      "flet", 
+      "flet",
       in_parens(repeat($.flet1)),
       repeat($.declare),
       optional($._body)),
 
     flet1: $ => in_parens($.fn_name, $.lambda_list,
-      repeat($.declare), 
+      repeat($.declare),
       optional(choice($._doc_body, $._body))),
 
     macrolet: $ => in_parens(
-      "macrolet", 
+      "macrolet",
       in_parens(repeat($.macrolet1)),
       repeat($.declare),
       optional($._body)),
 
     macrolet1: $ => in_parens($._symbol, $.lambda_list,
-      repeat($.declare), 
+      repeat($.declare),
       optional(choice($._doc_body, $._body))),
 
     in_package: $ => in_parens(
@@ -779,7 +779,7 @@ module.exports = grammar({
     // --- type specifier ---
     type: $ => choice($._symbol, $.list),
 
-  }, 
+  },
 
 });
 
