@@ -11,6 +11,10 @@
 (defun fun (a &aux x (b 3)))
 (defun (setf fun) (v x) v)
 
+(defmacro destr (a (b (c &optional x)) &optional ((o))))
+
+(destructuring-bind (a (a &optional b ((&key k x)))))
+
 (defmacro generate-stuff (a &whole b &body body &environment env)
   "doc"
   123)
@@ -69,6 +73,14 @@ pkg:sym
 (destructuring-bind (x (y &rest ys)) '(1 (2)) (+ x y))
 
 (defclass a:b (a) (x (y :type (or string number))))
+
+(defstruct a b)
+
+(defun list (a b c list) list)
+(let ((list x)))
+(list 1)
+#'list
+
 ; comments inside forms
 (let ((a ;what
         1)
